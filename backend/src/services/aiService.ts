@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { IAssignment } from "../models/Assignment";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+export const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export const generateQuestionPaper = async (assignment: IAssignment) => {
   const prompt = `

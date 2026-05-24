@@ -2,10 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, FileText, Plus, HelpCircle, Settings, Users, BookOpen, Clock, Sparkles } from 'lucide-react';
+import { Home, FileText, Plus, HelpCircle, Settings, Users, BookOpen, Clock, Sparkles, MonitorPlay } from 'lucide-react';
 
 export default function Sidebar() {
   const pathname = usePathname();
+
+  if (pathname.startsWith('/test')) return null;
 
   return (
     <aside className="sidebar">
@@ -42,6 +44,11 @@ export default function Sidebar() {
         <Link href="/toolkit" className={`nav-link ${pathname === '/toolkit' ? 'active' : ''}`}>
           <div className="nav-link-inner">
             <BookOpen size={18} /> AI Teacher's Toolkit
+          </div>
+        </Link>
+        <Link href="/lms" className={`nav-link ${pathname === '/lms' ? 'active' : ''}`}>
+          <div className="nav-link-inner">
+            <MonitorPlay size={18} /> Digital LMS
           </div>
         </Link>
         <Link href="/library" className={`nav-link ${pathname === '/library' ? 'active' : ''}`}>
