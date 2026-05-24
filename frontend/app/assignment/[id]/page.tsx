@@ -34,6 +34,7 @@ export default function AssignmentDetail({ params }: { params: Promise<{ id: str
   const { id } = use(params);
 
   const [isPrintingAnswerKey, setIsPrintingAnswerKey] = useState(false);
+  const [showAnswerKeyOptions, setShowAnswerKeyOptions] = useState(false);
 
   useEffect(() => {
     fetchAssignmentDetails(id);
@@ -55,12 +56,45 @@ export default function AssignmentDetail({ params }: { params: Promise<{ id: str
     await regenerateAssignment(id);
   };
 
-  const handleDownloadAnswerKey = () => {
+  const handleDownloadAnswerKeyPDF = () => {
+    setShowAnswerKeyOptions(false);
     if (!currentAssignment || !currentPaper) return;
     setIsPrintingAnswerKey(true);
     setTimeout(() => {
       window.print();
     }, 100);
+  };
+
+  const handleDownloadAnswerKeyCSV = () => {
+    setShowAnswerKeyOptions(false);
+    if (!currentAssignment || !currentPaper) return;
+    
+    const headers = ['Question No.', 'Question', 'Options', 'Answer', 'Marks', 'Difficulty'];
+    let csvRows = [headers.join(',')];
+    
+    let qNum = 1;
+    currentPaper.sections.forEach((sec: any) => {
+      sec.questions.forEach((q: any) => {
+        const qText = q.text ? `"${q.text.replace(/"/g, '""')}"` : '""';
+        const options = q.options && q.options.length > 0 ? `"${q.options.map((o: string, i: number) => `${String.fromCharCode(97+i)}. ${o}`).join(' | ').replace(/"/g, '""')}"` : '""';
+        const answer = q.answer ? `"${q.answer.replace(/"/g, '""')}"` : '""';
+        const marks = q.marks || '';
+        const difficulty = q.difficulty || '';
+        
+        csvRows.push([qNum, qText, options, answer, marks, difficulty].join(','));
+        qNum++;
+      });
+    });
+    
+    const csvContent = csvRows.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `${currentAssignment.title.replace(/\s+/g, '_')}_Answer_Key.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   if (!currentAssignment) {
@@ -76,9 +110,17 @@ export default function AssignmentDetail({ params }: { params: Promise<{ id: str
           <ArrowLeft size={20} strokeWidth={3} /> BACK TO DASHBOARD
         </div>
         <div className="header-actions">
-          <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={handleDownloadAnswerKey} disabled={isGenerating}>
-            <Download size={18} strokeWidth={3} /> ANSWER KEY
-          </button>
+          <div style={{ position: 'relative' }}>
+            <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => setShowAnswerKeyOptions(!showAnswerKeyOptions)} disabled={isGenerating}>
+              <Download size={18} strokeWidth={3} /> ANSWER KEY
+            </button>
+            {showAnswerKeyOptions && !isGenerating && (
+              <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '8px', background: '#fff', border: 'var(--border-thick)', boxShadow: 'var(--shadow-brutal)', display: 'flex', flexDirection: 'column', zIndex: 10, minWidth: '150px' }}>
+                <button onClick={handleDownloadAnswerKeyPDF} style={{ padding: '12px 16px', borderBottom: 'var(--border-thin)', background: 'none', textAlign: 'left', fontWeight: 800, cursor: 'pointer', border: 'none', width: '100%' }}>AS PDF</button>
+                <button onClick={handleDownloadAnswerKeyCSV} style={{ padding: '12px 16px', background: 'none', textAlign: 'left', fontWeight: 800, cursor: 'pointer', border: 'none', width: '100%' }}>AS CSV</button>
+              </div>
+            )}
+          </div>
           <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={handleRegenerate} disabled={isGenerating}>
             <RefreshCw size={18} strokeWidth={3} /> REGENERATE
           </button>
