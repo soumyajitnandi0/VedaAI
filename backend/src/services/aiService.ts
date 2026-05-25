@@ -53,11 +53,18 @@ Ensure the total number of questions and marks exactly matches the parameters pr
   `;
 
   try {
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: prompt,
-      config: { responseMimeType: "application/json" }
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => reject(new Error("Gemini API request timed out after 60 seconds")), 60000);
     });
+
+    const response = await Promise.race([
+      ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: prompt,
+        config: { responseMimeType: "application/json" }
+      }),
+      timeoutPromise
+    ]);
 
     let jsonStr = response.text || "{}";
     

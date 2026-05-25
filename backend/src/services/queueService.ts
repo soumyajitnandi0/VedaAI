@@ -12,6 +12,7 @@ const getRedisConfig = () => {
       connectionString: process.env.REDIS_URL,
       options: {
         maxRetriesPerRequest: null,
+        family: 0,
         ...(isTls ? { tls: { rejectUnauthorized: false } } : {})
       }
     };
