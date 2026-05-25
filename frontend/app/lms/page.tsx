@@ -99,7 +99,7 @@ export default function LMSDashboard() {
 
       <div style={{ flex: 1 }}>
         {selectedAssignment ? (
-          <div className="form-card" style={{ minHeight: '600px', display: 'flex', flexDirection: 'column' }}>
+          <div className="form-card" style={{ maxWidth: '100%', minHeight: '600px', display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', paddingBottom: '24px', borderBottom: '1px solid #E5E7EB' }}>
               <div>
                 <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#111827', margin: 0 }}>Submissions</h2>
@@ -202,7 +202,7 @@ export default function LMSDashboard() {
             )}
           </div>
         ) : (
-          <div className="form-card" style={{ minHeight: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '64px' }}>
+          <div className="form-card" style={{ maxWidth: '100%', minHeight: '600px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '64px' }}>
             <div style={{ background: '#F9FAFB', padding: '32px', borderRadius: '50%', marginBottom: '32px', border: '1px solid #E5E7EB' }}>
               <MonitorPlay size={64} color="#6B7280" />
             </div>

@@ -18,11 +18,9 @@ export default function Sidebar() {
 
   return (
     <aside className="sidebar">
-      <div className="brand" style={{ marginBottom: '16px' }}>
-        <div style={{ background: '#ea580c', padding: '6px 12px', borderRadius: '12px', color: 'white', fontSize: '18px', fontWeight: 700 }}>
-          V
-        </div>
-        <span style={{ color: '#111827' }}>VedaAI</span>
+      <div className="brand" style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <img src="/logo.svg" alt="VedaAI Logo" width={36} height={36} style={{ borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }} />
+        <span style={{ color: '#09090B', fontSize: '20px', fontWeight: 700, letterSpacing: '-0.5px' }}>VedaAI</span>
       </div>
       
       <Link href="/create" style={{ textDecoration: 'none', display: 'block', marginBottom: '8px' }}>

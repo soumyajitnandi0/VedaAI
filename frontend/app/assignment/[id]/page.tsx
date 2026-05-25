@@ -2,7 +2,7 @@
 import { useEffect, use, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAssignmentStore } from '../../../store/useAssignmentStore';
-import { Download, RefreshCw, ArrowLeft, Loader2 } from 'lucide-react';
+import { Download, RefreshCw, ArrowLeft, Loader2, Sparkles, Bell, ChevronDown } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -105,27 +105,51 @@ export default function AssignmentDetail({ params }: { params: Promise<{ id: str
 
   return (
     <div style={{ padding: '0', height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '32px', border: '1px solid #E5E7EB', width: '100%' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: '#111827', fontWeight: 600, cursor: 'pointer' }} onClick={() => router.push('/assignments')}>
-          <ArrowLeft size={18} color="#111827" /> BACK TO DASHBOARD
+      
+      {/* Top Header matching LMS page style */}
+      <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '24px', border: '1px solid #E5E7EB', width: '100%' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: '#9CA3AF', fontWeight: 600 }}>
+          <ArrowLeft size={20} color="#303030" style={{ cursor: 'pointer' }} onClick={() => router.push('/assignments')} />
+          <Sparkles size={16} color="#9CA3AF" />
+          <span>Create New</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+          <div style={{ position: 'relative', cursor: 'pointer' }}>
+            <Bell size={20} color="#111827" />
+            <div style={{ position: 'absolute', top: '-2px', right: '-2px', width: '8px', height: '8px', background: '#ea580c', borderRadius: '50%' }}></div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
+            <img src="https://api.dicebear.com/7.x/notionists/svg?seed=John&backgroundColor=c4b5fd" alt="User" style={{ width: '32px', height: '32px', borderRadius: '50%' }} />
+            <span style={{ fontSize: '14px', fontWeight: 600, color: '#111827' }}>John Doe</span>
+            <ChevronDown size={16} color="#111827" />
+          </div>
+        </div>
+      </div>
+
+      {/* Dark Chat Bubble Header */}
+      <div className="no-print" style={{ background: '#27272A', padding: '32px', borderRadius: '24px', marginBottom: '24px', width: '100%', color: 'white', display: 'flex', flexDirection: 'column', gap: '24px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}>
+        <p style={{ fontSize: '18px', fontWeight: 500, margin: 0, lineHeight: 1.6 }}>
+          Certainly, {currentAssignment.tutorName ? currentAssignment.tutorName.split(' ')[0] : 'Tutor'}! Here is the customized <u style={{textUnderlineOffset: '4px'}}>Question Paper</u> for your <u style={{textUnderlineOffset: '4px'}}>{currentAssignment.subject}</u> classes on the topic: <u style={{textUnderlineOffset: '4px'}}>{currentAssignment.topic}</u>.
+        </p>
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <button onClick={handlePrint} style={{ background: 'white', color: '#111827', border: 'none', padding: '12px 24px', borderRadius: '9999px', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', transition: 'all 0.2s' }} onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.02)'} onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
+            <Download size={16} /> Download as PDF
+          </button>
+          
           <div style={{ position: 'relative' }}>
-            <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', fontSize: '12px', fontWeight: 700, borderRadius: '9999px' }} onClick={() => setShowAnswerKeyOptions(!showAnswerKeyOptions)} disabled={isGenerating}>
-              <Download size={16} /> ANSWER KEY
+            <button style={{ background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', padding: '12px 24px', borderRadius: '9999px', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', transition: 'all 0.2s' }} onClick={() => setShowAnswerKeyOptions(!showAnswerKeyOptions)} disabled={isGenerating} onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'} onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}>
+              <Download size={16} /> Answer Key
             </button>
             {showAnswerKeyOptions && !isGenerating && (
-              <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '8px', background: '#fff', border: '1px solid #E5E7EB', borderRadius: '12px', boxShadow: '0 16px 48px rgba(0,0,0,0.12)', display: 'flex', flexDirection: 'column', zIndex: 10, minWidth: '150px', overflow: 'hidden' }}>
+              <div style={{ position: 'absolute', top: '100%', left: 0, marginTop: '8px', background: '#fff', border: '1px solid #E5E7EB', borderRadius: '12px', boxShadow: '0 16px 48px rgba(0,0,0,0.12)', display: 'flex', flexDirection: 'column', zIndex: 10, minWidth: '180px', overflow: 'hidden' }}>
                 <button onClick={handleDownloadAnswerKeyPDF} style={{ padding: '12px 16px', borderBottom: '1px solid #E5E7EB', background: 'none', textAlign: 'left', fontWeight: 600, cursor: 'pointer', border: 'none', width: '100%', color: '#111827' }} onMouseEnter={e => e.currentTarget.style.background='#F9FAFB'} onMouseLeave={e => e.currentTarget.style.background='none'}>Download as PDF</button>
                 <button onClick={handleDownloadAnswerKeyCSV} style={{ padding: '12px 16px', background: 'none', textAlign: 'left', fontWeight: 600, cursor: 'pointer', border: 'none', width: '100%', color: '#111827' }} onMouseEnter={e => e.currentTarget.style.background='#F9FAFB'} onMouseLeave={e => e.currentTarget.style.background='none'}>Download as CSV</button>
               </div>
             )}
           </div>
-          <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', fontSize: '12px', fontWeight: 700, borderRadius: '9999px' }} onClick={handleRegenerate} disabled={isGenerating}>
-            <RefreshCw size={16} /> REGENERATE
-          </button>
-          <button className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', fontSize: '12px', fontWeight: 700, borderRadius: '9999px', background: '#6B7280', color: '#FFFFFF', border: 'none' }} onClick={handlePrint} disabled={isGenerating}>
-            <Download size={16} /> DOWNLOAD PDF
+          
+          <button style={{ background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', padding: '12px 24px', borderRadius: '9999px', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', transition: 'all 0.2s' }} onClick={handleRegenerate} disabled={isGenerating} onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'} onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}>
+            <RefreshCw size={16} /> Regenerate
           </button>
         </div>
       </div>
@@ -145,7 +169,7 @@ export default function AssignmentDetail({ params }: { params: Promise<{ id: str
           <p>Something went wrong. Please try regenerating.</p>
         </div>
       ) : (
-        <div className="paper-container">
+        <div className="paper-container" style={{ maxWidth: '100%' }}>
           <div className="paper-header" style={{ textAlign: 'center', marginBottom: '32px', borderBottom: '1px solid #E6E6E6', paddingBottom: '24px' }}>
             {currentAssignment.instituteName && (
               <h1 style={{ fontSize: '28px', margin: '0 0 8px 0', color: '#303030', fontWeight: 700 }}>
