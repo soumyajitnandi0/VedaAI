@@ -1,68 +1,31 @@
-import { Queue, Worker } from 'bullmq';
-import Redis from 'ioredis';
 import Assignment from '../models/Assignment';
 import QuestionPaper from '../models/QuestionPaper';
 import { generateQuestionPaper } from './aiService';
 import { getIO } from '../utils/socket';
 
-const getRedisConfig = () => {
-  if (process.env.REDIS_URL) {
-    const isTls = process.env.REDIS_URL.startsWith('rediss://');
-    return {
-      connectionString: process.env.REDIS_URL,
-      options: {
-        maxRetriesPerRequest: null,
-        family: 0,
-        ...(isTls ? { tls: { rejectUnauthorized: false } } : {})
-      }
-    };
-  }
-  return {
-    options: {
-      host: process.env.REDIS_HOST || '127.0.0.1',
-      port: parseInt(process.env.REDIS_PORT || '6379', 10),
-      maxRetriesPerRequest: null
-    }
-  };
-};
+// Direct async processor — no Redis/BullMQ dependency needed
+export const processAssignmentJob = async (assignmentId: string) => {
+  console.log(`Processing assignment ${assignmentId}`);
 
-const redisConfig = getRedisConfig();
-const redisConnection = redisConfig.connectionString 
-  ? new Redis(redisConfig.connectionString, redisConfig.options)
-  : new Redis(redisConfig.options);
-
-redisConnection.on('error', (err) => {
-  console.error('Redis Connection Error:', err);
-});
-
-export const assignmentQueue = new Queue('assignmentQueue', {
-  connection: redisConnection,
-  defaultJobOptions: {
-    attempts: 1,        // Never auto-retry — prevents quota burn on failures
-    removeOnComplete: true,
-    removeOnFail: true, // Remove failed jobs so they don't re-queue on restart
-  }
-});
-
-// Clean up any stuck failed jobs from previous runs on startup
-assignmentQueue.obliterate({ force: true }).then(() => {
-  console.log('Queue flushed — stale jobs cleared.');
-}).catch(() => {
-  // Queue may already be empty; ignore errors
-});
-
-const worker = new Worker('assignmentQueue', async job => {
-  console.log(`Processing job ${job.id} for assignment ${job.data.assignmentId}`);
-  const assignment = await Assignment.findById(job.data.assignmentId);
+  const assignment = await Assignment.findById(assignmentId);
   if (!assignment) {
-    throw new Error("Assignment not found");
+    console.error(`Assignment ${assignmentId} not found`);
+    return;
+  }
+
+  let io: any;
+  try {
+    io = getIO();
+  } catch (e) {
+    // Socket not ready yet — non-fatal, polling will pick up the status
   }
 
   assignment.status = 'GENERATING';
   await assignment.save();
-  
-  const io = getIO();
-  io.emit('job_status', { assignmentId: assignment._id, status: 'GENERATING' });
+
+  if (io) {
+    io.emit('job_status', { assignmentId: assignment._id, status: 'GENERATING' });
+  }
 
   try {
     const paperData = await generateQuestionPaper(assignment);
@@ -76,20 +39,18 @@ const worker = new Worker('assignmentQueue', async job => {
     assignment.status = 'COMPLETED';
     await assignment.save();
 
-    io.emit('job_status', { assignmentId: assignment._id, status: 'COMPLETED' });
-    console.log(`Job ${job.id} completed successfully.`);
+    if (io) {
+      io.emit('job_status', { assignmentId: assignment._id, status: 'COMPLETED' });
+    }
+
+    console.log(`Assignment ${assignmentId} completed successfully.`);
   } catch (err: any) {
-    console.error(`Job ${job.id} failed:`, err);
+    console.error(`Assignment ${assignmentId} failed:`, err.message);
     assignment.status = 'FAILED';
     await assignment.save();
-    io.emit('job_status', { assignmentId: assignment._id, status: 'FAILED' });
-    throw err;
-  }
-}, { 
-  connection: redisConnection,
-  concurrency: 1,
-});
 
-worker.on('failed', (job, err) => {
-  console.error(`Job ${job?.id} has failed with error ${err.message}`);
-});
+    if (io) {
+      io.emit('job_status', { assignmentId: assignment._id, status: 'FAILED' });
+    }
+  }
+};

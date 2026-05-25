@@ -10,7 +10,6 @@ import assignmentRoutes from './routes/assignmentRoutes';
 import toolkitRoutes from './routes/toolkitRoutes';
 import testRoutes from './routes/testRoutes';
 import lmsRoutes from './routes/lmsRoutes';
-import './services/queueService'; // Initialize workers
 
 const app = express();
 const server = http.createServer(app);

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Assignment from '../models/Assignment';
 import QuestionPaper from '../models/QuestionPaper';
-import { assignmentQueue } from '../services/queueService';
+import { processAssignmentJob } from '../services/queueService';
 const pdfParse = require('pdf-parse');
 
 export const createAssignment = async (req: Request, res: Response): Promise<void> => {
@@ -38,8 +38,11 @@ export const createAssignment = async (req: Request, res: Response): Promise<voi
     });
     
     await assignment.save();
-    
-    await assignmentQueue.add('generate', { assignmentId: assignment._id });
+
+    // Fire-and-forget: process in background without blocking the HTTP response
+    processAssignmentJob(String(assignment._id)).catch(err =>
+      console.error('processAssignmentJob failed:', err)
+    );
 
     res.status(201).json(assignment);
   } catch (error: any) {
@@ -85,8 +88,10 @@ export const regenerateAssignment = async (req: Request, res: Response): Promise
     
     assignment.status = 'PENDING';
     await assignment.save();
-    
-    await assignmentQueue.add('generate', { assignmentId: assignment._id });
+
+    processAssignmentJob(String(assignment._id)).catch(err =>
+      console.error('processAssignmentJob failed:', err)
+    );
 
     res.status(200).json({ message: 'Regeneration started', assignment });
   } catch (error: any) {
