@@ -40,6 +40,16 @@ export default function AssignmentDetail({ params }: { params: Promise<{ id: str
     fetchAssignmentDetails(id);
   }, [id, fetchAssignmentDetails]);
 
+  // Fallback polling in case socket connection drops or misses the event
+  useEffect(() => {
+    if (currentAssignment?.status === 'GENERATING' || currentAssignment?.status === 'PENDING') {
+      const interval = setInterval(() => {
+        fetchAssignmentDetails(id);
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [id, fetchAssignmentDetails, currentAssignment?.status]);
+
   useEffect(() => {
     const handleAfterPrint = () => {
       setIsPrintingAnswerKey(false);

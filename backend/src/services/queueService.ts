@@ -5,13 +5,34 @@ import QuestionPaper from '../models/QuestionPaper';
 import { generateQuestionPaper } from './aiService';
 import { getIO } from '../utils/socket';
 
-const redisConnection = process.env.REDIS_URL 
-  ? new Redis(process.env.REDIS_URL, { maxRetriesPerRequest: null }) 
-  : new Redis({
+const getRedisConfig = () => {
+  if (process.env.REDIS_URL) {
+    const isTls = process.env.REDIS_URL.startsWith('rediss://');
+    return {
+      connectionString: process.env.REDIS_URL,
+      options: {
+        maxRetriesPerRequest: null,
+        ...(isTls ? { tls: { rejectUnauthorized: false } } : {})
+      }
+    };
+  }
+  return {
+    options: {
       host: process.env.REDIS_HOST || '127.0.0.1',
       port: parseInt(process.env.REDIS_PORT || '6379', 10),
       maxRetriesPerRequest: null
-    });
+    }
+  };
+};
+
+const redisConfig = getRedisConfig();
+const redisConnection = redisConfig.connectionString 
+  ? new Redis(redisConfig.connectionString, redisConfig.options)
+  : new Redis(redisConfig.options);
+
+redisConnection.on('error', (err) => {
+  console.error('Redis Connection Error:', err);
+});
 
 export const assignmentQueue = new Queue('assignmentQueue', {
   connection: redisConnection,
