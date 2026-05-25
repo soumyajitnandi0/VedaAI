@@ -264,8 +264,7 @@ input:focus, select:focus, textarea:focus {
 .paper-container {
   background: white;
   padding: 48px;
-  max-width: 900px;
-  margin: 0 auto;
+  width: 100%;
   border-radius: var(--radius-l);
   box-shadow: var(--shadow-md);
   color: var(--text-main);
@@ -310,35 +309,58 @@ input:focus, select:focus, textarea:focus {
   color: var(--text-muted);
 }
 .question-item {
-  margin-bottom: 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 16px;
-  background: #FAFAFA;
-  border-radius: 12px;
+  margin-bottom: 20px;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  border-bottom: 1px solid #F3F4F6;
+  padding-bottom: 16px;
+}
+.question-item:last-child {
+  border-bottom: none;
+}
+.question-number {
+  font-weight: 700;
+  font-size: 14px;
+  color: #111827;
+  min-width: 24px;
+  flex-shrink: 0;
 }
 .question-text {
   flex: 1;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.65;
   font-weight: 400;
+  color: #1f2937;
+}
+/* Prevent ReactMarkdown from turning option text blue */
+.question-text a,
+.question-text a:visited,
+.math-markdown a,
+.math-markdown a:visited {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+.question-text p {
+  margin: 0;
 }
 .question-meta {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 13px;
-  font-weight: 600;
-}
-.difficulty-badge {
-  padding: 4px 12px;
-  border-radius: 8px;
+  gap: 10px;
   font-size: 12px;
   font-weight: 600;
-  background: #FFF;
-  border: 1px solid #E6E6E6;
+  margin-top: 8px;
+  justify-content: flex-end;
+}
+.difficulty-badge {
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #F3F4F6;
+  color: #374151;
+  border: 1px solid #E5E7EB;
 }
 
 @media print {
@@ -348,7 +370,9 @@ input:focus, select:focus, textarea:focus {
     background: white !important;
     padding: 0 !important;
   }
-  .sidebar, .top-header, .no-print { display: none !important; }
+  .sidebar, .top-header, .no-print,
+  .mobile-bottom-nav, .mobile-topbar, .mobile-fab,
+  .page-header-pill, .assignment-bubble { display: none !important; }
   .main-content { 
     padding: 0; 
     overflow: visible !important; 
@@ -416,4 +440,274 @@ input:focus, select:focus, textarea:focus {
 .prose strong {
   font-weight: 600;
   color: #111827;
+}
+
+/* ============================================================
+   MOBILE RESPONSIVE
+   ============================================================ */
+
+/* Elements hidden on mobile by default */
+.mobile-topbar,
+.mobile-bottom-nav,
+.mobile-fab {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* Kill body padding — full bleed on mobile */
+  body {
+    padding: 0;
+  }
+
+  /* Stack layout vertically and remove overflow clip */
+  .layout-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    gap: 0;
+    overflow: visible;
+  }
+
+  /* Hide desktop sidebar completely */
+  .sidebar {
+    display: none;
+  }
+
+  /* Hide desktop FAB — Sidebar FAB replaces it on mobile */
+  .mobile-hide-fab {
+    display: none !important;
+  }
+
+  /* Compact the dark AI bubble on mobile */
+  .assignment-bubble {
+    padding: 16px !important;
+    border-radius: 16px !important;
+    gap: 12px !important;
+  }
+
+  .bubble-text {
+    font-size: 14px !important;
+  }
+
+  .bubble-actions {
+    gap: 8px !important;
+  }
+
+  .bubble-actions button {
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+  }
+
+  /* Hide per-page pill top headers — mobile topbar replaces them */
+  .page-header-pill {
+    display: none !important;
+  }
+
+  /* 3-col form rows (Subject/Topic/Date) stack on mobile */
+  .form-row-3 {
+    flex-direction: column !important;
+    gap: 0 !important;
+  }
+
+  /* Question type row: stack dropdown above controls */
+  .question-type-row {
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .question-type-row > div:first-child {
+    width: 100% !important;
+    flex: none !important;
+  }
+
+  .qt-controls {
+    width: 100% !important;
+    justify-content: flex-start !important;
+  }
+
+  /* Hide the desktop-only column header row */
+  .mobile-hide-qt-header {
+    display: none !important;
+  }
+
+  /* ── Mobile top bar ── */
+  .mobile-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FFFFFF;
+    padding: 14px 20px;
+    border-bottom: 1px solid #E5E7EB;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-shrink: 0;
+  }
+
+  /* Main content — full width, scrollable, room for bottom nav */
+  .main-content {
+    width: 100%;
+    height: auto;
+    overflow-y: visible;
+    padding: 16px 16px 100px 16px; /* bottom padding clears the nav bar */
+    border-radius: 0;
+    background: var(--bg-color);
+    box-sizing: border-box;
+  }
+
+  /* Hide the per-page top header pill on mobile since topbar handles it */
+  .mobile-hide-header {
+    display: none;
+  }
+
+  /* Paper container — tighter on mobile */
+  .paper-container {
+    padding: 24px 16px;
+    border-radius: 16px;
+  }
+
+  /* Form cards */
+  .form-card {
+    padding: 20px 16px;
+    border-radius: 16px;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  /* Student info — stack vertically */
+  .student-info {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  /* Question items — stack meta below */
+  .question-item {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .question-meta {
+    align-self: flex-end;
+  }
+
+  /* Reduce button padding slightly */
+  .btn-primary, .btn-secondary {
+    font-size: 13px;
+    padding: 10px 18px;
+  }
+
+  /* Headings scale */
+  .paper-header h1 { font-size: 20px !important; }
+  .paper-header h2 { font-size: 16px !important; }
+
+  /* Assignments grid: 1 col on mobile */
+  .assignments-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* ── Bottom Tab Navigation ── */
+  .mobile-bottom-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #111827;
+    padding: 10px 8px 14px 8px; /* extra bottom for safe area */
+    z-index: 100;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 -4px 24px rgba(0,0,0,0.15);
+  }
+
+  .bottom-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #6B7280;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 12px;
+    transition: color 0.2s;
+    min-width: 56px;
+    text-decoration: none;
+  }
+
+  .bottom-tab-active {
+    color: #FFFFFF;
+    font-weight: 700;
+  }
+
+  .bottom-tab-active svg {
+    stroke: #FFFFFF;
+  }
+
+  /* ── FAB (Floating Action Button) ── */
+  .mobile-fab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 72px; /* sits just above the bottom nav */
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    background: #ea580c;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    z-index: 110;
+    box-shadow: 0 4px 16px rgba(234,88,12,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .mobile-fab:active {
+    transform: scale(0.93);
+    box-shadow: 0 2px 8px rgba(234,88,12,0.3);
+  }
+}
+
+
+
+/* Stack toolkit layout vertically on mobile */
+@media (max-width: 768px) {
+  .toolkit-layout {
+    flex-direction: column !important;
+  }
+  .toolkit-form, .toolkit-result {
+    width: 100% !important;
+    min-height: auto !important;
+    position: static !important;
+  }
+
+  /* Home Page responsive styles */
+  .home-container {
+    padding-bottom: 120px !important;
+  }
+  .home-hero {
+    flex-direction: column !important;
+    text-align: center !important;
+    padding: 32px 24px !important;
+  }
+  .home-hero-text {
+    padding-right: 0 !important;
+    margin-bottom: 32px !important;
+  }
+  .home-hero-image img {
+    width: 200px !important;
+    height: 200px !important;
+  }
+}
+
+/* Hide scrollbar for horizontal tab rows */
+.toolkit-tabs-container::-webkit-scrollbar {
+  display: none;
+}
+.toolkit-tabs-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

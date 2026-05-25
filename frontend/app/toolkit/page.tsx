@@ -123,7 +123,7 @@ export default function ToolkitPage() {
   return (
     <div style={{ padding: '0', height: '100%', overflowY: 'auto' }}>
       {/* Top Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '32px', border: '1px solid #E5E7EB', width: '100%' }}>
+      <div className="page-header-pill" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '32px', border: '1px solid #E5E7EB', width: '100%' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: '#A9A9A9', fontWeight: 600 }}>
           <ArrowLeft size={20} color="#303030" style={{ cursor: 'pointer' }} onClick={() => window.history.back()} />
           <LayoutGrid size={18} color="#A9A9A9" /> 
@@ -144,33 +144,31 @@ export default function ToolkitPage() {
 
 
 
-      <div style={{ display: 'flex', gap: '24px', marginBottom: '32px' }}>
+      {/* Segmented Control Tabs */}
+      <div className="toolkit-tabs-container" style={{ display: 'flex', background: '#F3F4F6', padding: '6px', borderRadius: '16px', marginBottom: '32px', gap: '8px', overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
         <button 
-          className="btn-primary" 
           onClick={() => setActiveTool('LESSON_PLAN')}
-          style={{ flex: 1, background: activeTool === 'LESSON_PLAN' ? 'var(--accent-primary)' : '#fff', color: activeTool === 'LESSON_PLAN' ? '#fff' : 'var(--text-main)', border: '1px solid #E5E7EB', borderRadius: '9999px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 16px' }}
+          style={{ flex: 1, minWidth: 'max-content', background: activeTool === 'LESSON_PLAN' ? '#fff' : 'transparent', color: activeTool === 'LESSON_PLAN' ? '#111827' : '#6B7280', border: 'none', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 20px', fontWeight: 600, fontSize: '14px', boxShadow: activeTool === 'LESSON_PLAN' ? '0 4px 6px -1px rgba(0, 0, 0, 0.1)' : 'none', transition: 'all 0.2s', cursor: 'pointer' }}
         >
-          <BookOpen size={20} strokeWidth={2.5} style={{ marginRight: '8px' }} /> LESSON PLAN GENERATOR
+          <BookOpen size={18} style={{ marginRight: '8px' }} /> Lesson Plan Generator
         </button>
         <button 
-          className="btn-primary" 
           onClick={() => setActiveTool('FEEDBACK')}
-          style={{ flex: 1, background: activeTool === 'FEEDBACK' ? 'var(--accent-primary)' : '#fff', color: activeTool === 'FEEDBACK' ? '#fff' : 'var(--text-main)', border: '1px solid #E5E7EB', borderRadius: '9999px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 16px' }}
+          style={{ flex: 1, minWidth: 'max-content', background: activeTool === 'FEEDBACK' ? '#fff' : 'transparent', color: activeTool === 'FEEDBACK' ? '#111827' : '#6B7280', border: 'none', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 20px', fontWeight: 600, fontSize: '14px', boxShadow: activeTool === 'FEEDBACK' ? '0 4px 6px -1px rgba(0, 0, 0, 0.1)' : 'none', transition: 'all 0.2s', cursor: 'pointer' }}
         >
-          <MessageSquare size={20} strokeWidth={2.5} style={{ marginRight: '8px' }} /> PARENT-TEACHER FEEDBACK
+          <MessageSquare size={18} style={{ marginRight: '8px' }} /> Parent-Teacher Feedback
         </button>
         <button 
-          className="btn-primary" 
           onClick={() => setActiveTool('BATCH_GRADER')}
-          style={{ flex: 1, background: activeTool === 'BATCH_GRADER' ? 'var(--accent-primary)' : '#fff', color: activeTool === 'BATCH_GRADER' ? '#fff' : 'var(--text-main)', border: '1px solid #E5E7EB', borderRadius: '9999px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 16px' }}
+          style={{ flex: 1, minWidth: 'max-content', background: activeTool === 'BATCH_GRADER' ? '#fff' : 'transparent', color: activeTool === 'BATCH_GRADER' ? '#111827' : '#6B7280', border: 'none', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 20px', fontWeight: 600, fontSize: '14px', boxShadow: activeTool === 'BATCH_GRADER' ? '0 4px 6px -1px rgba(0, 0, 0, 0.1)' : 'none', transition: 'all 0.2s', cursor: 'pointer' }}
         >
-          <CheckCircle size={20} strokeWidth={2.5} style={{ marginRight: '8px' }} /> BATCH GRADER
+          <CheckCircle size={18} style={{ marginRight: '8px' }} /> Batch Grader
         </button>
       </div>
 
       {activeTool === 'LESSON_PLAN' && (
-        <div style={{ display: 'flex', gap: '32px', alignItems: 'flex-start' }}>
-          <div className="form-card" style={{ flex: 1, position: 'sticky', top: '32px' }}>
+        <div className="toolkit-layout" style={{ display: 'flex', gap: '32px', alignItems: 'flex-start' }}>
+          <div className="form-card toolkit-form" style={{ flex: 1, position: 'sticky', top: '32px' }}>
             <h2 style={{ fontSize: '20px', fontWeight: 700, textTransform: 'uppercase', marginBottom: '24px', color: '#111827' }}>Lesson Details</h2>
             <form onSubmit={handleGenerateLessonPlan}>
               <div className="form-group">
@@ -190,7 +188,7 @@ export default function ToolkitPage() {
               </button>
             </form>
           </div>
-          <div className="form-card" style={{ flex: 2, minHeight: '400px', background: '#F9FAFB' }}>
+          <div className="form-card toolkit-result" style={{ flex: 2, minHeight: '400px', background: '#F9FAFB' }}>
             {lpResult ? (
               <div className="prose" style={{ fontFamily: 'var(--font-space)' }}>
                 <ReactMarkdown>{lpResult}</ReactMarkdown>
@@ -205,8 +203,8 @@ export default function ToolkitPage() {
       )}
 
       {activeTool === 'FEEDBACK' && (
-        <div style={{ display: 'flex', gap: '32px', alignItems: 'flex-start' }}>
-          <div className="form-card" style={{ flex: 1, position: 'sticky', top: '32px' }}>
+        <div className="toolkit-layout" style={{ display: 'flex', gap: '32px', alignItems: 'flex-start' }}>
+          <div className="form-card toolkit-form" style={{ flex: 1, position: 'sticky', top: '32px' }}>
             <h2 style={{ fontSize: '20px', fontWeight: 700, textTransform: 'uppercase', marginBottom: '24px', color: '#111827' }}>Student Details</h2>
             <form onSubmit={handleGenerateFeedback}>
               <div className="form-group">
@@ -226,7 +224,7 @@ export default function ToolkitPage() {
               </button>
             </form>
           </div>
-          <div className="form-card" style={{ flex: 2, minHeight: '400px', background: '#F9FAFB' }}>
+          <div className="form-card toolkit-result" style={{ flex: 2, minHeight: '400px', background: '#F9FAFB' }}>
             {fbResult ? (
               <div style={{ fontSize: '18px', lineHeight: 1.6, fontWeight: 500 }}>
                 {fbResult}
@@ -241,8 +239,8 @@ export default function ToolkitPage() {
       )}
 
       {activeTool === 'BATCH_GRADER' && (
-        <div style={{ display: 'flex', gap: '32px', alignItems: 'flex-start' }}>
-          <div className="form-card" style={{ flex: 1, height: '800px', overflowY: 'auto' }}>
+        <div className="toolkit-layout" style={{ display: 'flex', gap: '32px', alignItems: 'flex-start' }}>
+          <div className="form-card toolkit-form" style={{ flex: 1, height: '800px', overflowY: 'auto' }}>
             <h2 style={{ fontSize: '20px', fontWeight: 700, textTransform: 'uppercase', marginBottom: '24px', color: '#111827' }}>Input Submissions</h2>
             <form onSubmit={handleGradeBatch}>
               <div className="form-group" style={{ marginBottom: '32px' }}>
@@ -307,7 +305,7 @@ export default function ToolkitPage() {
               </button>
             </form>
           </div>
-          <div className="form-card" style={{ flex: 2, minHeight: '800px', background: '#F9FAFB', display: 'flex', flexDirection: 'column' }}>
+          <div className="form-card toolkit-result" style={{ flex: 2, minHeight: '800px', background: '#F9FAFB', display: 'flex', flexDirection: 'column' }}>
             {batchResults ? (
               <>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>

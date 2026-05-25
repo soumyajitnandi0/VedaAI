@@ -9,7 +9,7 @@ export default function GroupsPage() {
   return (
     <div style={{ padding: '0', height: '100%', display: 'flex', flexDirection: 'column' }}>
       {/* Top Header */}
-      <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '32px', border: '1px solid #E5E7EB', width: '100%', flexShrink: 0 }}>
+      <div className="no-print page-header-pill" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '32px', border: '1px solid #E5E7EB', width: '100%', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: '#111827', fontWeight: 600, cursor: 'pointer' }} onClick={() => router.push('/')}>
           <ArrowLeft size={18} color="#111827" /> BACK TO DASHBOARD
         </div>

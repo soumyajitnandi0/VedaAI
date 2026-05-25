@@ -6,9 +6,9 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <div style={{ padding: '0', height: '100%', overflowY: 'auto' }}>
+    <div className="home-container" style={{ padding: '0', height: '100%', overflowY: 'auto' }}>
       {/* Top Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '32px', border: '1px solid #E5E7EB' }}>
+      <div className="page-header-pill" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '32px', border: '1px solid #E5E7EB' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: '#A9A9A9', fontWeight: 600 }}>
           <ArrowLeft size={20} color="#303030" style={{ cursor: 'pointer' }} onClick={() => router.back()} />
           <LayoutGrid size={18} color="#A9A9A9" /> 
@@ -27,8 +27,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div style={{ background: '#FFFFFF', padding: '48px', borderRadius: '32px', boxShadow: 'var(--shadow-sm)', marginBottom: '40px', border: '1px solid #E5E7EB', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ flex: 1, paddingRight: '48px' }}>
+      <div className="home-hero" style={{ background: '#FFFFFF', padding: '48px', borderRadius: '32px', boxShadow: 'var(--shadow-sm)', marginBottom: '40px', border: '1px solid #E5E7EB', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className="home-hero-text" style={{ flex: 1, paddingRight: '48px' }}>
           <h1 style={{ fontSize: '36px', fontWeight: 700, color: '#111827', margin: '0 0 16px 0', letterSpacing: '-0.5px' }}>
             Welcome to VedaAI
           </h1>
@@ -36,7 +36,7 @@ export default function Home() {
             Your AI-powered assistant for generating highly-structured question papers and assignments in seconds.
           </p>
         </div>
-        <div style={{ flexShrink: 0 }}>
+        <div className="home-hero-image" style={{ flexShrink: 0 }}>
           <img src="/images/hero_illustration.png" alt="AI Education Illustration" style={{ width: '240px', height: '240px', objectFit: 'contain', animation: 'float 6s ease-in-out infinite' }} />
         </div>
       </div>

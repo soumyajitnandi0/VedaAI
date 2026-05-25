@@ -117,7 +117,7 @@ export default function AssignmentDetail({ params }: { params: Promise<{ id: str
     <div style={{ padding: '0', height: '100%', display: 'flex', flexDirection: 'column' }}>
       
       {/* Top Header matching LMS page style */}
-      <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '24px', border: '1px solid #E5E7EB', width: '100%' }}>
+      <div className="no-print page-header-pill" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '24px', border: '1px solid #E5E7EB', width: '100%' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: '#9CA3AF', fontWeight: 600 }}>
           <ArrowLeft size={20} color="#303030" style={{ cursor: 'pointer' }} onClick={() => router.push('/assignments')} />
           <Sparkles size={16} color="#9CA3AF" />
@@ -137,18 +137,18 @@ export default function AssignmentDetail({ params }: { params: Promise<{ id: str
       </div>
 
       {/* Dark Chat Bubble Header */}
-      <div className="no-print" style={{ background: '#27272A', padding: '32px', borderRadius: '24px', marginBottom: '24px', width: '100%', color: 'white', display: 'flex', flexDirection: 'column', gap: '24px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}>
-        <p style={{ fontSize: '18px', fontWeight: 500, margin: 0, lineHeight: 1.6 }}>
+      <div className="no-print assignment-bubble" style={{ background: '#27272A', padding: '24px', borderRadius: '20px', marginBottom: '20px', width: '100%', color: 'white', display: 'flex', flexDirection: 'column', gap: '16px', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}>
+        <p className="bubble-text" style={{ fontSize: '16px', fontWeight: 500, margin: 0, lineHeight: 1.5 }}>
           Certainly, {currentAssignment.tutorName ? currentAssignment.tutorName.split(' ')[0] : 'Tutor'}! Here is the customized <u style={{textUnderlineOffset: '4px'}}>Question Paper</u> for your <u style={{textUnderlineOffset: '4px'}}>{currentAssignment.subject}</u> classes on the topic: <u style={{textUnderlineOffset: '4px'}}>{currentAssignment.topic}</u>.
         </p>
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
-          <button onClick={handlePrint} style={{ background: 'white', color: '#111827', border: 'none', padding: '12px 24px', borderRadius: '9999px', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', transition: 'all 0.2s' }} onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.02)'} onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
-            <Download size={16} /> Download as PDF
+        <div className="bubble-actions" style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <button onClick={handlePrint} style={{ background: 'white', color: '#111827', border: 'none', padding: '10px 20px', borderRadius: '9999px', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+            <Download size={15} /> Download as PDF
           </button>
           
           <div style={{ position: 'relative' }}>
-            <button style={{ background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', padding: '12px 24px', borderRadius: '9999px', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', transition: 'all 0.2s' }} onClick={() => setShowAnswerKeyOptions(!showAnswerKeyOptions)} disabled={isGenerating} onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'} onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}>
-              <Download size={16} /> Answer Key
+            <button style={{ background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', padding: '10px 20px', borderRadius: '9999px', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }} onClick={() => setShowAnswerKeyOptions(!showAnswerKeyOptions)} disabled={isGenerating}>
+              <Download size={15} /> Answer Key
             </button>
             {showAnswerKeyOptions && !isGenerating && (
               <div style={{ position: 'absolute', top: '100%', left: 0, marginTop: '8px', background: '#fff', border: '1px solid #E5E7EB', borderRadius: '12px', boxShadow: '0 16px 48px rgba(0,0,0,0.12)', display: 'flex', flexDirection: 'column', zIndex: 10, minWidth: '180px', overflow: 'hidden' }}>
@@ -158,8 +158,8 @@ export default function AssignmentDetail({ params }: { params: Promise<{ id: str
             )}
           </div>
           
-          <button style={{ background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', padding: '12px 24px', borderRadius: '9999px', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', transition: 'all 0.2s' }} onClick={handleRegenerate} disabled={isGenerating} onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'} onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}>
-            <RefreshCw size={16} /> Regenerate
+          <button style={{ background: 'rgba(255,255,255,0.1)', color: 'white', border: '1px solid rgba(255,255,255,0.2)', padding: '10px 20px', borderRadius: '9999px', fontWeight: 600, fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }} onClick={handleRegenerate} disabled={isGenerating}>
+            <RefreshCw size={15} /> Regenerate
           </button>
         </div>
       </div>
@@ -180,40 +180,45 @@ export default function AssignmentDetail({ params }: { params: Promise<{ id: str
         </div>
       ) : (
         <div className="paper-container" style={{ maxWidth: '100%' }}>
-          <div className="paper-header" style={{ textAlign: 'center', marginBottom: '32px', borderBottom: '1px solid #E6E6E6', paddingBottom: '24px' }}>
+          {/* Paper Header — centered like reference */}
+          <div className="paper-header">
             {currentAssignment.instituteName && (
-              <h1 style={{ fontSize: '28px', margin: '0 0 8px 0', color: '#303030', fontWeight: 700 }}>
+              <h1 style={{ fontSize: '22px', margin: '0 0 4px 0', color: '#1a1a1a', fontWeight: 700, textAlign: 'center' }}>
                 {currentAssignment.instituteName}
               </h1>
             )}
-            <h2 style={{ fontSize: '20px', margin: '0 0 16px 0', color: '#303030', fontWeight: 600 }}>
-              {currentAssignment.title} {isPrintingAnswerKey && "- Answer Key"}
+            <h2 style={{ fontSize: '18px', margin: '0 0 16px 0', color: '#303030', fontWeight: 600, textAlign: 'center' }}>
+              {currentAssignment.title} {isPrintingAnswerKey && '— Answer Key'}
             </h2>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', fontSize: '14px', fontWeight: 500, color: 'var(--text-muted)' }}>
-              <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                {currentAssignment.subject && <div>Subject: {currentAssignment.subject}</div>}
-                {currentAssignment.topic && <div>Topic: {currentAssignment.topic}</div>}
-                {currentAssignment.tutorName && <div>Tutor: {currentAssignment.tutorName}</div>}
+            <div style={{ height: '1px', background: '#E5E7EB', margin: '0 0 16px 0' }} />
+            {/* Two-column meta row */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#374151', marginBottom: '16px', flexWrap: 'wrap', gap: '4px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', textAlign: 'left' }}>
+                {currentAssignment.subject && <span><strong>Subject:</strong> {currentAssignment.subject}</span>}
+                {currentAssignment.topic && <span><strong>Topic:</strong> {currentAssignment.topic}</span>}
+                {currentAssignment.tutorName && <span><strong>Tutor:</strong> {currentAssignment.tutorName}</span>}
               </div>
-              <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <div>Duration: {currentAssignment.timeDuration ? currentAssignment.timeDuration : 'N/A'}</div>
-                <div>Total Marks: {currentAssignment.questionTypes?.reduce((acc: number, curr: any) => acc + (Number(curr.numberOfQuestions) * Number(curr.marksPerQuestion)), 0) || 'N/A'}</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', textAlign: 'right' }}>
+                <span><strong>Duration:</strong> {currentAssignment.timeDuration || 'N/A'}</span>
+                <span><strong>Total Marks:</strong> {currentAssignment.questionTypes?.reduce((acc: number, curr: any) => acc + (Number(curr.numberOfQuestions) * Number(curr.marksPerQuestion)), 0) || 'N/A'}</span>
               </div>
             </div>
+            <div style={{ height: '1px', background: '#E5E7EB', margin: '0 0 20px 0' }} />
           </div>
 
-          <div className="student-info">
-            <div className="student-info-item">
-              <span>Name:</span>
-              <div className="input-line"></div>
+          {/* Student Info — stacked cleanly */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '32px', fontSize: '14px' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-end', gap: '8px' }}>
+              <span style={{ fontWeight: 500, whiteSpace: 'nowrap' }}>Name:</span>
+              <div style={{ flex: 1, borderBottom: '1px solid #111827' }} />
             </div>
-            <div className="student-info-item">
-              <span>Roll Number:</span>
-              <div className="input-line"></div>
+            <div style={{ display: 'flex', alignItems: 'flex-end', gap: '8px' }}>
+              <span style={{ fontWeight: 500, whiteSpace: 'nowrap' }}>Roll Number:</span>
+              <div style={{ flex: 1, borderBottom: '1px solid #111827' }} />
             </div>
-            <div className="student-info-item">
-              <span>Section:</span>
-              <div className="input-line"></div>
+            <div style={{ display: 'flex', alignItems: 'flex-end', gap: '8px' }}>
+              <span style={{ fontWeight: 500, whiteSpace: 'nowrap' }}>Section:</span>
+              <div style={{ flex: 1, borderBottom: '1px solid #111827' }} />
             </div>
           </div>
 
@@ -222,44 +227,43 @@ export default function AssignmentDetail({ params }: { params: Promise<{ id: str
               <div className="section-title">{section.title.toUpperCase()}</div>
               <div className="section-instruction">({section.instruction})</div>
               
-              <div style={{ marginTop: '24px' }}>
+              <div style={{ marginTop: '16px' }}>
                 {section.questions.map((q: any, qIdx: number) => (
                   <div key={qIdx} className="question-item">
-                    <div style={{ fontWeight: 'bold' }}>{qIdx + 1}.</div>
-                    <div className="question-text">
-                      {isPrintingAnswerKey ? (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                          <div style={{ fontStyle: 'italic', color: '#4b5563' }}><MathText content={q.text} /></div>
-                          <div style={{ fontWeight: 600, padding: '8px 12px', border: '1px solid #E6E6E6', borderRadius: '8px', background: '#FAFAFA', display: 'inline-block', alignSelf: 'flex-start' }}>
-                            Answer: <MathText content={q.answer || 'N/A'} />
-                          </div>
-                        </div>
-                      ) : (
-                        <>
-                          <MathText content={q.text} />
-                          {q.options && q.options.length > 0 && (
-                            <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                              {q.options.map((opt: string, oIdx: number) => (
-                                <div key={oIdx} style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                  <span style={{ fontWeight: 600 }}>{String.fromCharCode(97 + oIdx)}.</span>
-                                  <span><MathText content={opt} /></span>
-                                </div>
-                              ))}
+                    {/* Question row: number + body */}
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+                      <span className="question-number">{qIdx + 1}.</span>
+                      <div className="question-text">
+                        {isPrintingAnswerKey ? (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            <div style={{ fontStyle: 'italic', color: '#4b5563' }}><MathText content={q.text} /></div>
+                            <div style={{ fontWeight: 600, padding: '6px 12px', border: '1px solid #E6E6E6', borderRadius: '8px', background: '#FAFAFA', display: 'inline-block' }}>
+                              Answer: <MathText content={q.answer || 'N/A'} />
                             </div>
-                          )}
-                        </>
-                      )}
+                          </div>
+                        ) : (
+                          <>
+                            <MathText content={q.text} />
+                            {q.options && q.options.length > 0 && (
+                              <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                {q.options.map((opt: string, oIdx: number) => (
+                                  <div key={oIdx} style={{ display: 'flex', gap: '6px', alignItems: 'flex-start', fontSize: '13px', color: '#1f2937' }}>
+                                    <span style={{ fontWeight: 600, minWidth: '18px', flexShrink: 0 }}>{String.fromCharCode(97 + oIdx)}.</span>
+                                    <span><MathText content={opt} /></span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </div>
                     </div>
+                    {/* Meta row: difficulty badge + marks */}
                     <div className="question-meta no-print">
-                      <span className={`difficulty-badge ${q.difficulty.toLowerCase()}`}>
-                        {q.difficulty}
-                      </span>
-                      <span style={{ fontWeight: 600 }}>[{q.marks} Marks]</span>
+                      <span className={`difficulty-badge`}>{q.difficulty}</span>
+                      <span style={{ fontWeight: 600, fontSize: '12px', color: '#374151' }}>[{q.marks} Marks]</span>
                     </div>
-                    {/* For print, show marks cleanly on the right */}
-                    <div className="print-only" style={{ display: 'none', fontWeight: 600 }}>
-                      [{q.marks}]
-                    </div>
+                    <div className="print-only" style={{ display: 'none', fontWeight: 600 }}>[{q.marks}]</div>
                   </div>
                 ))}
               </div>
@@ -271,10 +275,8 @@ export default function AssignmentDetail({ params }: { params: Promise<{ id: str
               .no-print { display: none !important; }
               .print-only { display: block !important; }
             }
-            .math-markdown p {
-              margin: 0;
-              display: inline;
-            }
+            .math-markdown p { margin: 0; display: inline; }
+            .math-markdown a { color: inherit !important; text-decoration: none !important; }
           `}} />
         </div>
       )}

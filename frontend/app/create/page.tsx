@@ -114,7 +114,7 @@ export default function CreateAssignment() {
     <div style={{ padding: '0', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       
       {/* Top Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '32px', border: '1px solid #E5E7EB', width: '100%' }}>
+      <div className="page-header-pill" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '32px', border: '1px solid #E5E7EB', width: '100%' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: '#A9A9A9', fontWeight: 600 }}>
           <ArrowLeft size={20} color="#303030" style={{ cursor: 'pointer' }} onClick={() => router.back()} />
           <LayoutGrid size={18} color="#A9A9A9" /> 
@@ -194,7 +194,7 @@ export default function CreateAssignment() {
             <p style={{ textAlign: 'center', fontSize: '13px', color: '#6B7280', marginBottom: '32px' }}>* AI will extract text from this document to generate questions.</p>
 
             {/* Subject, Topic, Due Date */}
-            <div style={{ display: 'flex', gap: '20px', marginBottom: '32px' }}>
+            <div className="form-row-3" style={{ display: 'flex', gap: '20px', marginBottom: '32px' }}>
               <div style={{ flex: 1 }} className="form-group">
                 <label>Subject {file ? '(Optional)' : ''}</label>
                 <input 
@@ -242,8 +242,8 @@ export default function CreateAssignment() {
 
             <div style={{ height: '1px', background: '#E5E7EB', marginBottom: '32px', width: '100%' }} />
 
-            {/* Question Type Header */}
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', padding: '0 16px' }}>
+            {/* Question Type Header — hidden on mobile */}
+            <div className="mobile-hide-qt-header" style={{ display: 'flex', alignItems: 'center', marginBottom: '16px', padding: '0 16px' }}>
               <div style={{ flex: 1 }}>
                 <span style={{ fontSize: '13px', fontWeight: 600, color: '#6B7280' }}>Question Type</span>
               </div>
@@ -257,7 +257,8 @@ export default function CreateAssignment() {
 
             {/* Question Types List */}
             {questionTypes.map((qt, index) => (
-              <div key={index} style={{ display: 'flex', gap: '16px', alignItems: 'center', marginBottom: '12px' }}>
+              <div key={index} className="question-type-row" style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '12px' }}>
+                {/* Dropdown */}
                 <div style={{ flex: 1, position: 'relative' }}>
                   <select 
                     value={qt.type} 
@@ -275,22 +276,32 @@ export default function CreateAssignment() {
                     <ChevronDown size={16} color="#6B7280" />
                   </div>
                 </div>
-                
-                <button type="button" onClick={() => handleRemoveQuestionType(index)} style={{ background: '#FFF', border: '1px solid #E5E7EB', cursor: 'pointer', padding: '12px', color: '#C53535', display: 'flex', alignItems: 'center', borderRadius: '12px', transition: 'all 0.2s' }} onMouseEnter={e => e.currentTarget.style.background='#FEF2F2'} onMouseLeave={e => e.currentTarget.style.background='#FFF'}>
-                  <X size={18} strokeWidth={2} />
-                </button>
-                
-                <div style={{ width: '120px', display: 'flex', justifyContent: 'center' }}>
-                  <NumberInput 
-                    value={Number(qt.numberOfQuestions)} 
-                    onChange={(val) => handleChangeQuestionType(index, 'numberOfQuestions', val)} 
-                  />
-                </div>
-                <div style={{ width: '120px', display: 'flex', justifyContent: 'center' }}>
-                  <NumberInput 
-                    value={Number(qt.marksPerQuestion)} 
-                    onChange={(val) => handleChangeQuestionType(index, 'marksPerQuestion', val)} 
-                  />
+
+                {/* Count + Marks + Remove: grouped on mobile */}
+                <div className="qt-controls" style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ fontSize: '11px', color: '#6B7280', fontWeight: 600 }}>Count</span>
+                    <NumberInput 
+                      value={Number(qt.numberOfQuestions)} 
+                      onChange={(val) => handleChangeQuestionType(index, 'numberOfQuestions', val)} 
+                    />
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                    <span style={{ fontSize: '11px', color: '#6B7280', fontWeight: 600 }}>Marks</span>
+                    <NumberInput 
+                      value={Number(qt.marksPerQuestion)} 
+                      onChange={(val) => handleChangeQuestionType(index, 'marksPerQuestion', val)} 
+                    />
+                  </div>
+                  <button 
+                    type="button" 
+                    onClick={() => handleRemoveQuestionType(index)} 
+                    style={{ background: '#FFF', border: '1px solid #E5E7EB', cursor: 'pointer', padding: '10px', color: '#C53535', display: 'flex', alignItems: 'center', borderRadius: '12px', marginTop: '18px' }}
+                    onMouseEnter={e => e.currentTarget.style.background='#FEF2F2'} 
+                    onMouseLeave={e => e.currentTarget.style.background='#FFF'}
+                  >
+                    <X size={16} strokeWidth={2} />
+                  </button>
                 </div>
               </div>
             ))}

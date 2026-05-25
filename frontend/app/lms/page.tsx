@@ -63,7 +63,7 @@ export default function LMSDashboard() {
   return (
     <div style={{ padding: '0', height: '100%', overflowY: 'auto' }}>
       {/* Top Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '32px', border: '1px solid #E5E7EB', width: '100%', flexShrink: 0 }}>
+      <div className="page-header-pill" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '32px', border: '1px solid #E5E7EB', width: '100%', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: '#A9A9A9', fontWeight: 600 }}>
           <ArrowLeft size={20} color="#303030" style={{ cursor: 'pointer' }} onClick={() => window.history.back()} />
           <LayoutGrid size={18} color="#A9A9A9" /> 

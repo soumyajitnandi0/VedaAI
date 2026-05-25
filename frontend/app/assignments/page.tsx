@@ -23,7 +23,7 @@ export default function Dashboard() {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100%', position: 'relative' }}>
       
       {/* Top Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '32px', border: '1px solid #E5E7EB' }}>
+      <div className="page-header-pill" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '32px', border: '1px solid #E5E7EB' }}>
         
         {/* Left: Breadcrumb */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: '#A9A9A9', fontWeight: 600 }}>
@@ -91,7 +91,7 @@ export default function Dashboard() {
           </button>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', paddingBottom: '120px' }}>
+        <div className="assignments-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', paddingBottom: '120px' }}>
           {filteredAssignments.map((assignment: any) => {
             const assignedDate = assignment.createdAt ? format(new Date(assignment.createdAt), 'dd-MM-yyyy') : format(new Date(), 'dd-MM-yyyy');
             const dueDateStr = assignment.dueDate ? format(new Date(assignment.dueDate), 'dd-MM-yyyy') : 'N/A';
@@ -176,11 +176,11 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Floating Action Button */}
+      {/* Floating Action Button — hidden on mobile (replaced by Sidebar FAB) */}
       {assignments.length > 0 && (
         <>
-          <div style={{ position: 'fixed', bottom: 0, left: '304px', right: 0, height: '160px', background: 'linear-gradient(to top, rgba(244,244,245,1) 0%, rgba(244,244,245,0) 100%)', pointerEvents: 'none', zIndex: 40 }} />
-          <div style={{ position: 'fixed', bottom: '40px', left: 'calc(50% + 152px)', transform: 'translateX(-50%)', zIndex: 50 }}>
+          <div className="mobile-hide-fab" style={{ position: 'fixed', bottom: 0, left: '304px', right: 0, height: '160px', background: 'linear-gradient(to top, rgba(244,244,245,1) 0%, rgba(244,244,245,0) 100%)', pointerEvents: 'none', zIndex: 40 }} />
+          <div className="mobile-hide-fab" style={{ position: 'fixed', bottom: '40px', left: 'calc(50% + 152px)', transform: 'translateX(-50%)', zIndex: 50 }}>
             <button 
               onClick={() => router.push('/create')}
               style={{ background: '#111827', color: '#fff', border: 'none', padding: '16px 32px', borderRadius: '9999px', fontSize: '16px', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', boxShadow: '0 16px 32px rgba(0,0,0,0.2)', transition: 'transform 0.2s' }}
