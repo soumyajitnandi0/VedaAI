@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react';
 import axios from 'axios';
-import { BookOpen, MessageSquare, Loader2, Play, CheckCircle, Download, Plus, Trash2 } from 'lucide-react';
+import { BookOpen, MessageSquare, Loader2, Play, CheckCircle, Download, Plus, Trash2, ArrowLeft, LayoutGrid, Bell, ChevronDown } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 export default function ToolkitPage() {
@@ -119,49 +119,57 @@ export default function ToolkitPage() {
   };
 
   return (
-    <div style={{ padding: '32px', height: '100%', overflowY: 'auto' }}>
-      <div style={{ background: 'var(--accent-danger)', padding: '48px', border: 'var(--border-thick)', boxShadow: 'var(--shadow-brutal)', marginBottom: '48px', display: 'flex', alignItems: 'center', gap: '24px' }}>
-        <div style={{ background: '#000', padding: '16px', border: 'var(--border-thin)' }}>
-          <BookOpen size={48} color="#fff" strokeWidth={3} />
+    <div style={{ padding: '0', height: '100%', overflowY: 'auto' }}>
+      {/* Top Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '32px', border: '1px solid #E5E7EB', width: '100%' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: '#A9A9A9', fontWeight: 600 }}>
+          <ArrowLeft size={20} color="#303030" style={{ cursor: 'pointer' }} onClick={() => window.history.back()} />
+          <LayoutGrid size={18} color="#A9A9A9" /> 
+          <span>AI Teacher's Toolkit</span>
         </div>
-        <div>
-          <h1 style={{ fontSize: '40px', fontWeight: 900, textTransform: 'uppercase', color: '#000', margin: '0 0 8px 0', letterSpacing: '-1px' }}>
-            AI Teacher's Toolkit
-          </h1>
-          <p style={{ fontSize: '18px', fontWeight: 600, color: '#000', margin: 0 }}>
-            Supercharge your teaching workflow with AI micro-tools.
-          </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+          <div style={{ position: 'relative', cursor: 'pointer' }}>
+            <Bell size={20} color="#111827" />
+            <div style={{ position: 'absolute', top: '-2px', right: '-2px', width: '8px', height: '8px', background: '#EF4444', borderRadius: '50%' }}></div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
+            <img src="https://api.dicebear.com/7.x/notionists/svg?seed=John&backgroundColor=c4b5fd" alt="User" style={{ width: '32px', height: '32px', borderRadius: '50%' }} />
+            <span style={{ fontSize: '14px', fontWeight: 600, color: '#111827' }}>John Doe</span>
+            <ChevronDown size={16} color="#111827" />
+          </div>
         </div>
       </div>
+
+
 
       <div style={{ display: 'flex', gap: '24px', marginBottom: '32px' }}>
         <button 
           className="btn-primary" 
           onClick={() => setActiveTool('LESSON_PLAN')}
-          style={{ flex: 1, background: activeTool === 'LESSON_PLAN' ? 'var(--accent-primary)' : '#fff', color: '#000', border: 'var(--border-thick)' }}
+          style={{ flex: 1, background: activeTool === 'LESSON_PLAN' ? 'var(--accent-primary)' : '#fff', color: activeTool === 'LESSON_PLAN' ? '#fff' : 'var(--text-main)', border: '1px solid #E5E7EB', borderRadius: '9999px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 16px' }}
         >
-          <BookOpen size={20} strokeWidth={3} style={{ marginRight: '8px' }} /> LESSON PLAN GENERATOR
+          <BookOpen size={20} strokeWidth={2.5} style={{ marginRight: '8px' }} /> LESSON PLAN GENERATOR
         </button>
         <button 
           className="btn-primary" 
           onClick={() => setActiveTool('FEEDBACK')}
-          style={{ flex: 1, background: activeTool === 'FEEDBACK' ? 'var(--accent-alt)' : '#fff', color: '#000', border: 'var(--border-thick)' }}
+          style={{ flex: 1, background: activeTool === 'FEEDBACK' ? 'var(--accent-primary)' : '#fff', color: activeTool === 'FEEDBACK' ? '#fff' : 'var(--text-main)', border: '1px solid #E5E7EB', borderRadius: '9999px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 16px' }}
         >
-          <MessageSquare size={20} strokeWidth={3} style={{ marginRight: '8px' }} /> PARENT-TEACHER FEEDBACK
+          <MessageSquare size={20} strokeWidth={2.5} style={{ marginRight: '8px' }} /> PARENT-TEACHER FEEDBACK
         </button>
         <button 
           className="btn-primary" 
           onClick={() => setActiveTool('BATCH_GRADER')}
-          style={{ flex: 1, background: activeTool === 'BATCH_GRADER' ? 'var(--accent-danger)' : '#fff', color: '#000', border: 'var(--border-thick)' }}
+          style={{ flex: 1, background: activeTool === 'BATCH_GRADER' ? 'var(--accent-primary)' : '#fff', color: activeTool === 'BATCH_GRADER' ? '#fff' : 'var(--text-main)', border: '1px solid #E5E7EB', borderRadius: '9999px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 16px' }}
         >
-          <CheckCircle size={20} strokeWidth={3} style={{ marginRight: '8px' }} /> BATCH GRADER
+          <CheckCircle size={20} strokeWidth={2.5} style={{ marginRight: '8px' }} /> BATCH GRADER
         </button>
       </div>
 
       {activeTool === 'LESSON_PLAN' && (
         <div style={{ display: 'flex', gap: '32px', alignItems: 'flex-start' }}>
           <div className="form-card" style={{ flex: 1, position: 'sticky', top: '32px' }}>
-            <h2 style={{ fontSize: '24px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '24px' }}>Lesson Details</h2>
+            <h2 style={{ fontSize: '20px', fontWeight: 700, textTransform: 'uppercase', marginBottom: '24px', color: '#111827' }}>Lesson Details</h2>
             <form onSubmit={handleGenerateLessonPlan}>
               <div className="form-group">
                 <label>TOPIC</label>
@@ -180,7 +188,7 @@ export default function ToolkitPage() {
               </button>
             </form>
           </div>
-          <div className="form-card" style={{ flex: 2, minHeight: '400px', background: '#f9fafb' }}>
+          <div className="form-card" style={{ flex: 2, minHeight: '400px', background: '#F9FAFB' }}>
             {lpResult ? (
               <div className="prose" style={{ fontFamily: 'var(--font-space)' }}>
                 <ReactMarkdown>{lpResult}</ReactMarkdown>
@@ -197,7 +205,7 @@ export default function ToolkitPage() {
       {activeTool === 'FEEDBACK' && (
         <div style={{ display: 'flex', gap: '32px', alignItems: 'flex-start' }}>
           <div className="form-card" style={{ flex: 1, position: 'sticky', top: '32px' }}>
-            <h2 style={{ fontSize: '24px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '24px' }}>Student Details</h2>
+            <h2 style={{ fontSize: '20px', fontWeight: 700, textTransform: 'uppercase', marginBottom: '24px', color: '#111827' }}>Student Details</h2>
             <form onSubmit={handleGenerateFeedback}>
               <div className="form-group">
                 <label>STUDENT NAME</label>
@@ -216,7 +224,7 @@ export default function ToolkitPage() {
               </button>
             </form>
           </div>
-          <div className="form-card" style={{ flex: 2, minHeight: '400px', background: '#f9fafb' }}>
+          <div className="form-card" style={{ flex: 2, minHeight: '400px', background: '#F9FAFB' }}>
             {fbResult ? (
               <div style={{ fontSize: '18px', lineHeight: 1.6, fontWeight: 500 }}>
                 {fbResult}
@@ -233,7 +241,7 @@ export default function ToolkitPage() {
       {activeTool === 'BATCH_GRADER' && (
         <div style={{ display: 'flex', gap: '32px', alignItems: 'flex-start' }}>
           <div className="form-card" style={{ flex: 1, height: '800px', overflowY: 'auto' }}>
-            <h2 style={{ fontSize: '24px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '24px' }}>Input Submissions</h2>
+            <h2 style={{ fontSize: '20px', fontWeight: 700, textTransform: 'uppercase', marginBottom: '24px', color: '#111827' }}>Input Submissions</h2>
             <form onSubmit={handleGradeBatch}>
               <div className="form-group" style={{ marginBottom: '32px' }}>
                 <label>MASTER ANSWER KEY</label>
@@ -249,7 +257,7 @@ export default function ToolkitPage() {
               <div style={{ borderTop: '2px solid #e5e7eb', paddingTop: '24px', marginBottom: '24px' }}>
                 <h3 style={{ fontSize: '18px', fontWeight: 800, marginBottom: '16px' }}>Student Answers</h3>
                 {submissions.map((sub, index) => (
-                  <div key={sub.id} style={{ background: '#f3f4f6', padding: '16px', border: 'var(--border-thin)', marginBottom: '16px', position: 'relative' }}>
+                  <div key={sub.id} style={{ background: '#F9FAFB', padding: '24px', borderRadius: '16px', border: '1px solid #E5E7EB', marginBottom: '16px', position: 'relative' }}>
                     {submissions.length > 1 && (
                       <button 
                         type="button" 
@@ -297,35 +305,35 @@ export default function ToolkitPage() {
               </button>
             </form>
           </div>
-          <div className="form-card" style={{ flex: 2, minHeight: '800px', background: '#f9fafb', display: 'flex', flexDirection: 'column' }}>
+          <div className="form-card" style={{ flex: 2, minHeight: '800px', background: '#F9FAFB', display: 'flex', flexDirection: 'column' }}>
             {batchResults ? (
               <>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                  <h2 style={{ fontSize: '24px', fontWeight: 800, textTransform: 'uppercase', margin: 0 }}>Grading Results</h2>
+                  <h2 style={{ fontSize: '20px', fontWeight: 700, textTransform: 'uppercase', margin: 0, color: '#303030' }}>Grading Results</h2>
                   <button onClick={handleDownloadLeaderboard} className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <Download size={18} strokeWidth={3} /> DOWNLOAD LEADERBOARD
                   </button>
                 </div>
                 
                 <div style={{ overflowX: 'auto' }}>
-                  <table style={{ width: '100%', borderCollapse: 'collapse', border: 'var(--border-thin)', background: '#fff' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', borderRadius: '16px', overflow: 'hidden', background: '#fff', border: '1px solid #E6E6E6' }}>
                     <thead>
-                      <tr style={{ background: 'var(--accent-color)' }}>
-                        <th style={{ padding: '12px', border: 'var(--border-thin)', textAlign: 'left', fontWeight: 800 }}>Rank</th>
-                        <th style={{ padding: '12px', border: 'var(--border-thin)', textAlign: 'left', fontWeight: 800 }}>Name</th>
-                        <th style={{ padding: '12px', border: 'var(--border-thin)', textAlign: 'center', fontWeight: 800 }}>Score</th>
-                        <th style={{ padding: '12px', border: 'var(--border-thin)', textAlign: 'left', fontWeight: 800 }}>Feedback</th>
+                      <tr style={{ background: '#FAFAFA' }}>
+                        <th style={{ padding: '16px', borderBottom: '1px solid #E6E6E6', textAlign: 'left', fontWeight: 600, color: '#A9A9A9', fontSize: '13px' }}>Rank</th>
+                        <th style={{ padding: '16px', borderBottom: '1px solid #E6E6E6', textAlign: 'left', fontWeight: 600, color: '#A9A9A9', fontSize: '13px' }}>Name</th>
+                        <th style={{ padding: '16px', borderBottom: '1px solid #E6E6E6', textAlign: 'center', fontWeight: 600, color: '#A9A9A9', fontSize: '13px' }}>Score</th>
+                        <th style={{ padding: '16px', borderBottom: '1px solid #E6E6E6', textAlign: 'left', fontWeight: 600, color: '#A9A9A9', fontSize: '13px' }}>Feedback</th>
                       </tr>
                     </thead>
                     <tbody>
                       {[...batchResults].sort((a, b) => b.score - a.score).map((res, i) => (
-                        <tr key={i}>
-                          <td style={{ padding: '12px', border: 'var(--border-thin)', fontWeight: 800, textAlign: 'center' }}>#{i + 1}</td>
-                          <td style={{ padding: '12px', border: 'var(--border-thin)', fontWeight: 700 }}>{res.name}</td>
-                          <td style={{ padding: '12px', border: 'var(--border-thin)', textAlign: 'center', fontWeight: 900, color: res.score >= 80 ? '#047857' : res.score >= 50 ? '#b45309' : '#b91c1c' }}>
+                        <tr key={i} style={{ borderBottom: '1px solid #E6E6E6' }}>
+                          <td style={{ padding: '16px', fontWeight: 600, textAlign: 'center', color: '#303030' }}>#{i + 1}</td>
+                          <td style={{ padding: '16px', fontWeight: 600, color: '#303030' }}>{res.name}</td>
+                          <td style={{ padding: '16px', textAlign: 'center', fontWeight: 700, color: res.score >= 80 ? '#047857' : res.score >= 50 ? '#b45309' : '#b91c1c' }}>
                             {res.score}%
                           </td>
-                          <td style={{ padding: '12px', border: 'var(--border-thin)', fontSize: '14px', lineHeight: 1.5 }}>{res.feedback}</td>
+                          <td style={{ padding: '16px', fontSize: '14px', lineHeight: 1.5, color: '#303030' }}>{res.feedback}</td>
                         </tr>
                       ))}
                     </tbody>

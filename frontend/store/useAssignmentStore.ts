@@ -16,6 +16,7 @@ export interface AssignmentData {
   timeDuration: string;
   tutorName: string;
   instituteName: string;
+  targetExam?: string;
   questionTypes: QuestionTypeConfig[];
   additionalInstructions: string;
   file?: File | null;
@@ -72,6 +73,9 @@ export const useAssignmentStore = create<AssignmentStore>((set, get) => ({
       formData.append('timeDuration', data.timeDuration);
       formData.append('tutorName', data.tutorName);
       formData.append('instituteName', data.instituteName);
+      if (data.targetExam) {
+        formData.append('targetExam', data.targetExam);
+      }
       formData.append('additionalInstructions', data.additionalInstructions);
       formData.append('questionTypes', JSON.stringify(data.questionTypes));
       

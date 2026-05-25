@@ -131,11 +131,11 @@ export default function StudentTestPage({ params }: { params: Promise<{ id: stri
   if (submitted) {
     return (
       <div style={{ padding: '64px', maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
-        <div style={{ background: violationReason ? '#fef2f2' : '#ecfdf5', padding: '48px', border: 'var(--border-thick)', boxShadow: 'var(--shadow-brutal)' }}>
-          <h1 style={{ fontSize: '32px', fontWeight: 900, color: violationReason ? '#b91c1c' : '#047857', marginBottom: '16px' }}>
-            {violationReason ? 'TEST AUTO-SUBMITTED' : 'TEST SUBMITTED!'}
+        <div style={{ background: violationReason ? '#FEF2F2' : '#F0FDF4', padding: '48px', borderRadius: '24px', border: '1px solid #E5E7EB', boxShadow: 'var(--shadow-sm)' }}>
+          <h1 style={{ fontSize: '32px', fontWeight: 700, color: violationReason ? '#EF4444' : '#10B981', marginBottom: '16px' }}>
+            {violationReason ? 'Test Auto-Submitted' : 'Test Submitted!'}
           </h1>
-          <p style={{ fontSize: '18px', fontWeight: 600 }}>
+          <p style={{ fontSize: '18px', fontWeight: 500, color: '#6B7280' }}>
             {violationReason ? `Your test was automatically submitted due to a proctoring violation: ${violationReason}` : 'Your answers have been securely recorded. You may now close this window.'}
           </p>
         </div>
@@ -145,19 +145,21 @@ export default function StudentTestPage({ params }: { params: Promise<{ id: stri
 
   return (
     <div style={{ maxWidth: '900px', margin: '0 auto', padding: '32px' }}>
-      <div style={{ background: '#fff', border: 'var(--border-thick)', padding: '32px', boxShadow: 'var(--shadow-brutal)', marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: 900, textTransform: 'uppercase', marginBottom: '8px' }}>{data.assignment.instituteName || 'VedaAI Test'}</h1>
-        <h2 style={{ fontSize: '20px', fontWeight: 700, color: '#374151' }}>{data.assignment.title}</h2>
+      <div style={{ background: '#fff', border: '1px solid #E5E7EB', borderRadius: '24px', padding: '32px', boxShadow: 'var(--shadow-sm)', marginBottom: '32px' }}>
+        <h1 style={{ fontSize: '24px', fontWeight: 700, textTransform: 'uppercase', marginBottom: '8px', color: '#111827' }}>{data.assignment.instituteName || 'VedaAI Test'}</h1>
+        <h2 style={{ fontSize: '18px', fontWeight: 600, color: '#6B7280' }}>{data.assignment.title}</h2>
       </div>
 
       {!isTestStarted ? (
-        <div style={{ background: '#fff', border: 'var(--border-thick)', padding: '48px', boxShadow: 'var(--shadow-brutal)', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '24px', fontWeight: 900, marginBottom: '24px', color: '#b91c1c' }}>⚠️ STRICT PROCTORING ENABLED</h2>
-          <p style={{ fontSize: '18px', fontWeight: 600, marginBottom: '32px', maxWidth: '600px', margin: '0 auto 32px auto' }}>
+        <div style={{ background: '#fff', border: '1px solid #E5E7EB', borderRadius: '24px', padding: '48px', boxShadow: 'var(--shadow-sm)', textAlign: 'center' }}>
+          <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '24px', color: '#EF4444', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '24px' }}>⚠️</span> STRICT PROCTORING ENABLED
+          </h2>
+          <p style={{ fontSize: '16px', fontWeight: 500, color: '#111827', marginBottom: '32px', maxWidth: '600px', margin: '0 auto 32px auto', lineHeight: 1.6 }}>
             This exam must be taken in Full Screen mode. If you attempt to switch tabs, open another window, or exit Full Screen, your test will be <strong>AUTOMATICALLY SUBMITTED</strong> with your current answers.
           </p>
           
-          <div style={{ background: '#f3f4f6', border: 'var(--border-thick)', padding: '24px', marginBottom: '32px', display: 'flex', flexDirection: 'column', gap: '24px', maxWidth: '400px', margin: '0 auto 32px auto', textAlign: 'left' }}>
+          <div style={{ background: '#F9FAFB', border: '1px solid #E5E7EB', borderRadius: '16px', padding: '24px', marginBottom: '32px', display: 'flex', flexDirection: 'column', gap: '24px', maxWidth: '400px', margin: '0 auto 32px auto', textAlign: 'left' }}>
             <div className="form-group" style={{ marginBottom: 0 }}>
               <label>STUDENT NAME</label>
               <input type="text" required value={studentName} onChange={e => setStudentName(e.target.value)} placeholder="Full Name" />
@@ -168,24 +170,24 @@ export default function StudentTestPage({ params }: { params: Promise<{ id: stri
             </div>
           </div>
 
-          <button onClick={handleStartTest} className="btn-primary" style={{ padding: '24px 48px', fontSize: '24px', background: '#000', color: '#fff' }}>
-            ENTER FULL SCREEN & START EXAM
+          <button onClick={handleStartTest} className="btn-primary" style={{ padding: '16px 32px', fontSize: '16px' }}>
+            Enter Full Screen & Start Exam
           </button>
         </div>
       ) : (
       <form onSubmit={handleSubmit}>
 
         {data.paper.sections.map((section: any, sIdx: number) => (
-          <div key={sIdx} style={{ background: '#fff', border: 'var(--border-thick)', padding: '32px', boxShadow: 'var(--shadow-brutal)', marginBottom: '32px' }}>
-            <h3 style={{ fontSize: '20px', fontWeight: 800, borderBottom: '2px solid #000', paddingBottom: '16px', marginBottom: '16px' }}>{section.title.toUpperCase()}</h3>
-            <p style={{ fontStyle: 'italic', color: '#4b5563', marginBottom: '24px', fontWeight: 600 }}>{section.instruction}</p>
+          <div key={sIdx} style={{ background: '#fff', border: '1px solid #E5E7EB', borderRadius: '24px', padding: '32px', boxShadow: 'var(--shadow-sm)', marginBottom: '32px' }}>
+            <h3 style={{ fontSize: '18px', fontWeight: 700, borderBottom: '1px solid #E5E7EB', paddingBottom: '16px', marginBottom: '16px', color: '#111827' }}>{section.title.toUpperCase()}</h3>
+            <p style={{ fontStyle: 'italic', color: '#6B7280', marginBottom: '24px', fontWeight: 500 }}>{section.instruction}</p>
             
             {section.questions.map((q: any, qIdx: number) => (
-              <div key={qIdx} style={{ marginBottom: '32px', paddingBottom: '32px', borderBottom: '1px dashed #d1d5db' }}>
+              <div key={qIdx} style={{ marginBottom: '32px', paddingBottom: '32px', borderBottom: '1px dashed #E5E7EB' }}>
                 <div style={{ display: 'flex', gap: '12px' }}>
-                  <div style={{ fontWeight: 900, fontSize: '18px' }}>{qIdx + 1}.</div>
+                  <div style={{ fontWeight: 700, fontSize: '16px', color: '#111827' }}>{qIdx + 1}.</div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}><MathText content={q.text} /></div>
+                    <div style={{ fontSize: '16px', fontWeight: 500, marginBottom: '16px', color: '#111827', lineHeight: 1.6 }}><MathText content={q.text} /></div>
                     
                     {q.options && q.options.length > 0 ? (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -193,16 +195,16 @@ export default function StudentTestPage({ params }: { params: Promise<{ id: stri
                           const optionLetter = String.fromCharCode(97+oIdx);
                           const isSelected = getAnswer(sIdx, qIdx) === optionLetter;
                           return (
-                            <label key={oIdx} style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '12px', border: isSelected ? '2px solid #000' : '2px solid #e5e7eb', background: isSelected ? '#fef08a' : '#fff', fontWeight: isSelected ? 800 : 500 }}>
+                            <label key={oIdx} style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', padding: '16px', borderRadius: '12px', border: isSelected ? '1px solid #111827' : '1px solid #E5E7EB', background: isSelected ? '#F9FAFB' : '#fff', fontWeight: isSelected ? 600 : 500, color: '#111827', transition: 'all 0.2s' }}>
                               <input 
                                 type="radio" 
                                 name={`q_${sIdx}_${qIdx}`} 
                                 value={optionLetter}
                                 checked={isSelected}
                                 onChange={(e) => handleAnswerChange(sIdx, qIdx, e.target.value)}
-                                style={{ transform: 'scale(1.2)' }}
+                                style={{ transform: 'scale(1.2)', accentColor: '#111827' }}
                               />
-                              <span style={{ fontWeight: 800 }}>{optionLetter}.</span> <MathText content={opt} />
+                              <span style={{ fontWeight: 700 }}>{optionLetter}.</span> <MathText content={opt} />
                             </label>
                           );
                         })}
@@ -210,31 +212,35 @@ export default function StudentTestPage({ params }: { params: Promise<{ id: stri
                     ) : (
                       <textarea 
                         rows={4} 
-                        style={{ width: '100%', padding: '16px', border: 'var(--border-thin)', fontSize: '16px', resize: 'vertical' }} 
+                        style={{ width: '100%', padding: '16px', border: '1px solid #E5E7EB', borderRadius: '12px', background: '#F9FAFB', fontSize: '14px', resize: 'vertical', outline: 'none' }} 
                         placeholder="Type your answer here..."
                         value={getAnswer(sIdx, qIdx)}
                         onChange={(e) => handleAnswerChange(sIdx, qIdx, e.target.value)}
+                        onFocus={(e) => { e.currentTarget.style.background = '#fff'; e.currentTarget.style.borderColor = '#111827'; }}
+                        onBlur={(e) => { e.currentTarget.style.background = '#F9FAFB'; e.currentTarget.style.borderColor = '#E5E7EB'; }}
                       />
                     )}
                   </div>
-                  <div style={{ fontWeight: 900, color: 'var(--accent-danger)' }}>[{q.marks}]</div>
+                  <div style={{ fontWeight: 600, fontSize: '14px', color: '#EF4444', background: '#FEF2F2', padding: '4px 8px', borderRadius: '8px', height: 'fit-content' }}>[{q.marks}]</div>
                 </div>
               </div>
             ))}
           </div>
         ))}
 
-        <button type="submit" disabled={isSubmitting} className="btn-primary" style={{ width: '100%', padding: '24px', fontSize: '24px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', marginBottom: '64px' }}>
-          {isSubmitting ? <Loader2 className="animate-spin" size={32} /> : <><Send size={32} /> SUBMIT TEST</>}
+        <button type="submit" disabled={isSubmitting} className="btn-primary" style={{ width: '100%', padding: '16px 24px', fontSize: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', marginBottom: '64px' }}>
+          {isSubmitting ? <Loader2 className="animate-spin" size={24} /> : <><Send size={20} /> Submit Test</>}
         </button>
       </form>
       )}
 
       {showFullscreenWarning && !submitted && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.85)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
-          <div style={{ background: '#fff', border: 'var(--border-thick)', padding: '48px', boxShadow: 'var(--shadow-brutal)', maxWidth: '500px', textAlign: 'center' }}>
-            <h2 style={{ fontSize: '28px', fontWeight: 900, marginBottom: '24px', color: '#b91c1c', textTransform: 'uppercase' }}>⚠️ Warning</h2>
-            <p style={{ fontSize: '18px', fontWeight: 600, marginBottom: '32px' }}>
+          <div style={{ background: '#fff', border: '1px solid #E5E7EB', borderRadius: '24px', padding: '48px', boxShadow: 'var(--shadow-lg)', maxWidth: '500px', textAlign: 'center' }}>
+            <h2 style={{ fontSize: '24px', fontWeight: 700, marginBottom: '24px', color: '#EF4444', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '28px' }}>⚠️</span> WARNING
+            </h2>
+            <p style={{ fontSize: '16px', fontWeight: 500, marginBottom: '32px', color: '#111827', lineHeight: 1.6 }}>
               You have exited Full Screen mode. To maintain exam integrity, you must return to Full Screen immediately, or submit your exam right now.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -247,8 +253,8 @@ export default function StudentTestPage({ params }: { params: Promise<{ id: stri
                     alert('Failed to enter full screen. Please check browser permissions.');
                   }
                 }} 
-                className="btn-primary" style={{ padding: '16px', fontSize: '18px', background: '#000', color: '#fff' }}>
-                RETURN TO FULL SCREEN
+                className="btn-primary" style={{ padding: '16px', fontSize: '16px' }}>
+                Return to Full Screen
               </button>
               <button 
                 onClick={() => {
@@ -256,8 +262,11 @@ export default function StudentTestPage({ params }: { params: Promise<{ id: stri
                   handleSubmit(undefined, false);
                 }} 
                 disabled={isSubmitting}
-                className="btn-secondary" style={{ padding: '16px', fontSize: '18px', background: '#fca5a5', border: 'var(--border-thick)' }}>
-                {isSubmitting ? <Loader2 className="animate-spin" /> : 'SUBMIT EXAM NOW'}
+                className="btn-secondary" style={{ padding: '16px', fontSize: '16px', borderColor: '#EF4444', color: '#EF4444' }}
+                onMouseEnter={e => e.currentTarget.style.background = '#FEF2F2'}
+                onMouseLeave={e => e.currentTarget.style.background = '#fff'}
+              >
+                {isSubmitting ? <Loader2 className="animate-spin" /> : 'Submit Exam Now'}
               </button>
             </div>
           </div>

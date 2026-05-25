@@ -12,7 +12,19 @@ const redisConnection = new Redis({
 });
 
 export const assignmentQueue = new Queue('assignmentQueue', {
-  connection: redisConnection
+  connection: redisConnection,
+  defaultJobOptions: {
+    attempts: 1,        // Never auto-retry — prevents quota burn on failures
+    removeOnComplete: true,
+    removeOnFail: true, // Remove failed jobs so they don't re-queue on restart
+  }
+});
+
+// Clean up any stuck failed jobs from previous runs on startup
+assignmentQueue.obliterate({ force: true }).then(() => {
+  console.log('Queue flushed — stale jobs cleared.');
+}).catch(() => {
+  // Queue may already be empty; ignore errors
 });
 
 const worker = new Worker('assignmentQueue', async job => {
@@ -49,7 +61,10 @@ const worker = new Worker('assignmentQueue', async job => {
     io.emit('job_status', { assignmentId: assignment._id, status: 'FAILED' });
     throw err;
   }
-}, { connection: redisConnection });
+}, { 
+  connection: redisConnection,
+  concurrency: 1,
+});
 
 worker.on('failed', (job, err) => {
   console.error(`Job ${job?.id} has failed with error ${err.message}`);

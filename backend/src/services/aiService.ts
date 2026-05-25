@@ -13,6 +13,7 @@ ${assignment.topic ? `Topic: ${assignment.topic}` : ''}
 ${assignment.timeDuration ? `Time Duration: ${assignment.timeDuration}` : ''}
 ${assignment.instituteName ? `Institute: ${assignment.instituteName}` : ''}
 ${assignment.tutorName ? `Prepared By: ${assignment.tutorName}` : ''}
+${assignment.targetExam ? `Target Exam Standard: ${assignment.targetExam}` : ''}
 Instructions: ${assignment.additionalInstructions}
 
 ${assignment.referenceText ? `Source Material/Context (Base your questions on this text if relevant):\n${assignment.referenceText}\n` : ''}
@@ -55,9 +56,7 @@ Ensure the total number of questions and marks exactly matches the parameters pr
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-      }
+      config: { responseMimeType: "application/json" }
     });
 
     let jsonStr = response.text || "{}";

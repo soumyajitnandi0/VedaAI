@@ -8,6 +8,7 @@ export interface IAssignment extends Document {
   timeDuration?: string;
   tutorName?: string;
   instituteName?: string;
+  targetExam?: string;
   questionTypes: {
     type: string;
     numberOfQuestions: number;
@@ -28,6 +29,7 @@ const AssignmentSchema: Schema = new Schema({
   timeDuration: { type: String },
   tutorName: { type: String },
   instituteName: { type: String },
+  targetExam: { type: String },
   questionTypes: [{
     type: { type: String, required: true },
     numberOfQuestions: { type: Number, required: true },

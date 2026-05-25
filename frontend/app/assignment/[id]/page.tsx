@@ -104,40 +104,39 @@ export default function AssignmentDetail({ params }: { params: Promise<{ id: str
   const isGenerating = currentAssignment.status === 'GENERATING' || currentAssignment.status === 'PENDING';
 
   return (
-    <div>
-      <div className="top-header no-print">
-        <div className="breadcrumb" style={{ cursor: 'pointer' }} onClick={() => router.push('/assignments')}>
-          <ArrowLeft size={20} strokeWidth={3} /> BACK TO DASHBOARD
+    <div style={{ padding: '0', height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFFFFF', padding: '16px 24px', borderRadius: '9999px', marginBottom: '32px', border: '1px solid #E5E7EB', width: '100%' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '14px', color: '#111827', fontWeight: 600, cursor: 'pointer' }} onClick={() => router.push('/assignments')}>
+          <ArrowLeft size={18} color="#111827" /> BACK TO DASHBOARD
         </div>
-        <div className="header-actions">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{ position: 'relative' }}>
-            <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => setShowAnswerKeyOptions(!showAnswerKeyOptions)} disabled={isGenerating}>
-              <Download size={18} strokeWidth={3} /> ANSWER KEY
+            <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', fontSize: '12px', fontWeight: 700, borderRadius: '9999px' }} onClick={() => setShowAnswerKeyOptions(!showAnswerKeyOptions)} disabled={isGenerating}>
+              <Download size={16} /> ANSWER KEY
             </button>
             {showAnswerKeyOptions && !isGenerating && (
-              <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '8px', background: '#fff', border: 'var(--border-thick)', boxShadow: 'var(--shadow-brutal)', display: 'flex', flexDirection: 'column', zIndex: 10, minWidth: '150px' }}>
-                <button onClick={handleDownloadAnswerKeyPDF} style={{ padding: '12px 16px', borderBottom: 'var(--border-thin)', background: 'none', textAlign: 'left', fontWeight: 800, cursor: 'pointer', border: 'none', width: '100%' }}>AS PDF</button>
-                <button onClick={handleDownloadAnswerKeyCSV} style={{ padding: '12px 16px', background: 'none', textAlign: 'left', fontWeight: 800, cursor: 'pointer', border: 'none', width: '100%' }}>AS CSV</button>
+              <div style={{ position: 'absolute', top: '100%', right: 0, marginTop: '8px', background: '#fff', border: '1px solid #E5E7EB', borderRadius: '12px', boxShadow: '0 16px 48px rgba(0,0,0,0.12)', display: 'flex', flexDirection: 'column', zIndex: 10, minWidth: '150px', overflow: 'hidden' }}>
+                <button onClick={handleDownloadAnswerKeyPDF} style={{ padding: '12px 16px', borderBottom: '1px solid #E5E7EB', background: 'none', textAlign: 'left', fontWeight: 600, cursor: 'pointer', border: 'none', width: '100%', color: '#111827' }} onMouseEnter={e => e.currentTarget.style.background='#F9FAFB'} onMouseLeave={e => e.currentTarget.style.background='none'}>Download as PDF</button>
+                <button onClick={handleDownloadAnswerKeyCSV} style={{ padding: '12px 16px', background: 'none', textAlign: 'left', fontWeight: 600, cursor: 'pointer', border: 'none', width: '100%', color: '#111827' }} onMouseEnter={e => e.currentTarget.style.background='#F9FAFB'} onMouseLeave={e => e.currentTarget.style.background='none'}>Download as CSV</button>
               </div>
             )}
           </div>
-          <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={handleRegenerate} disabled={isGenerating}>
-            <RefreshCw size={18} strokeWidth={3} /> REGENERATE
+          <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', fontSize: '12px', fontWeight: 700, borderRadius: '9999px' }} onClick={handleRegenerate} disabled={isGenerating}>
+            <RefreshCw size={16} /> REGENERATE
           </button>
-          <button className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={handlePrint} disabled={isGenerating}>
-            <Download size={18} strokeWidth={3} /> DOWNLOAD PDF
+          <button className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '12px 24px', fontSize: '12px', fontWeight: 700, borderRadius: '9999px', background: '#6B7280', color: '#FFFFFF', border: 'none' }} onClick={handlePrint} disabled={isGenerating}>
+            <Download size={16} /> DOWNLOAD PDF
           </button>
         </div>
       </div>
 
       {isGenerating ? (
-        <div style={{ textAlign: 'center', marginTop: '100px' }}>
-          <Loader2 size={48} color="var(--accent-color)" className="animate-spin" style={{ margin: '0 auto 24px', animation: 'spin 2s linear infinite' }} />
-          <h2>Generating Assignment...</h2>
-          <p style={{ color: 'var(--text-muted)', marginTop: '8px' }}>Our AI is crafting the question paper. This may take a few seconds.</p>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', marginBottom: '10vh' }}>
+          <Loader2 size={40} color="#111827" style={{ marginBottom: '24px', animation: 'spin 1s linear infinite' }} />
+          <h2 style={{ fontSize: '24px', fontWeight: 700, color: '#111827', marginBottom: '12px', marginTop: 0 }}>Generating Assignment...</h2>
+          <p style={{ color: '#6B7280', fontSize: '14px', fontWeight: 500, margin: 0 }}>Our AI is crafting the question paper. This may take a few seconds.</p>
           <style dangerouslySetInnerHTML={{__html: `
             @keyframes spin { 100% { transform: rotate(360deg); } }
-            .animate-spin { animation: spin 1s linear infinite; }
           `}} />
         </div>
       ) : currentAssignment.status === 'FAILED' ? (
@@ -147,24 +146,24 @@ export default function AssignmentDetail({ params }: { params: Promise<{ id: str
         </div>
       ) : (
         <div className="paper-container">
-          <div className="paper-header" style={{ textAlign: 'center', marginBottom: '32px', borderBottom: '2px solid #111827', paddingBottom: '24px' }}>
+          <div className="paper-header" style={{ textAlign: 'center', marginBottom: '32px', borderBottom: '1px solid #E6E6E6', paddingBottom: '24px' }}>
             {currentAssignment.instituteName && (
-              <h1 style={{ fontSize: '28px', textTransform: 'uppercase', margin: '0 0 8px 0', color: '#111827', fontWeight: 900, letterSpacing: '1px' }}>
+              <h1 style={{ fontSize: '28px', margin: '0 0 8px 0', color: '#303030', fontWeight: 700 }}>
                 {currentAssignment.instituteName}
               </h1>
             )}
-            <h2 style={{ fontSize: '22px', textTransform: 'uppercase', margin: '0 0 16px 0', color: '#374151', fontWeight: 800 }}>
-              {currentAssignment.title} {isPrintingAnswerKey && "- ANSWER KEY"}
+            <h2 style={{ fontSize: '20px', margin: '0 0 16px 0', color: '#303030', fontWeight: 600 }}>
+              {currentAssignment.title} {isPrintingAnswerKey && "- Answer Key"}
             </h2>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', fontSize: '14px', fontWeight: 700, color: '#111827' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', fontSize: '14px', fontWeight: 500, color: 'var(--text-muted)' }}>
               <div style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                {currentAssignment.subject && <div>SUBJECT: {currentAssignment.subject.toUpperCase()}</div>}
-                {currentAssignment.topic && <div>TOPIC: {currentAssignment.topic.toUpperCase()}</div>}
-                {currentAssignment.tutorName && <div>TUTOR: {currentAssignment.tutorName.toUpperCase()}</div>}
+                {currentAssignment.subject && <div>Subject: {currentAssignment.subject}</div>}
+                {currentAssignment.topic && <div>Topic: {currentAssignment.topic}</div>}
+                {currentAssignment.tutorName && <div>Tutor: {currentAssignment.tutorName}</div>}
               </div>
               <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <div>TIME: {currentAssignment.timeDuration ? currentAssignment.timeDuration.toUpperCase() : 'N/A'}</div>
-                <div>MARKS: {currentAssignment.questionTypes?.reduce((acc: number, curr: any) => acc + (Number(curr.numberOfQuestions) * Number(curr.marksPerQuestion)), 0) || 'N/A'}</div>
+                <div>Duration: {currentAssignment.timeDuration ? currentAssignment.timeDuration : 'N/A'}</div>
+                <div>Total Marks: {currentAssignment.questionTypes?.reduce((acc: number, curr: any) => acc + (Number(curr.numberOfQuestions) * Number(curr.marksPerQuestion)), 0) || 'N/A'}</div>
               </div>
             </div>
           </div>
@@ -197,8 +196,8 @@ export default function AssignmentDetail({ params }: { params: Promise<{ id: str
                       {isPrintingAnswerKey ? (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                           <div style={{ fontStyle: 'italic', color: '#4b5563' }}><MathText content={q.text} /></div>
-                          <div style={{ fontWeight: 800, padding: '8px 12px', border: 'var(--border-thin)', background: 'var(--accent-primary)', display: 'inline-block', alignSelf: 'flex-start' }}>
-                            ANSWER: <MathText content={q.answer || 'N/A'} />
+                          <div style={{ fontWeight: 600, padding: '8px 12px', border: '1px solid #E6E6E6', borderRadius: '8px', background: '#FAFAFA', display: 'inline-block', alignSelf: 'flex-start' }}>
+                            Answer: <MathText content={q.answer || 'N/A'} />
                           </div>
                         </div>
                       ) : (

@@ -6,7 +6,7 @@ const pdfParse = require('pdf-parse');
 
 export const createAssignment = async (req: Request, res: Response): Promise<void> => {
   try {
-    let { title, subject, topic, dueDate, timeDuration, tutorName, instituteName, questionTypes, additionalInstructions } = req.body;
+    let { title, subject, topic, targetExam, dueDate, timeDuration, tutorName, instituteName, questionTypes, additionalInstructions } = req.body;
     
     // Parse questionTypes if it comes as a string (FormData)
     if (typeof questionTypes === 'string') {
@@ -30,6 +30,7 @@ export const createAssignment = async (req: Request, res: Response): Promise<voi
       timeDuration,
       tutorName,
       instituteName,
+      targetExam,
       questionTypes,
       additionalInstructions,
       referenceText,

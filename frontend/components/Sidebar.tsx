@@ -2,24 +2,31 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 import { Home, FileText, Plus, HelpCircle, Settings, Users, BookOpen, Clock, Sparkles, MonitorPlay } from 'lucide-react';
+import { useAssignmentStore } from '../store/useAssignmentStore';
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { assignments, fetchAssignments } = useAssignmentStore();
+
+  useEffect(() => {
+    fetchAssignments();
+  }, [fetchAssignments]);
 
   if (pathname.startsWith('/test')) return null;
 
   return (
     <aside className="sidebar">
-      <div className="brand" style={{ marginBottom: '8px' }}>
-        <div style={{ background: 'linear-gradient(135deg, #ea580c, #c2410c)', padding: '6px 10px', borderRadius: '8px', color: 'white', fontSize: '18px', fontWeight: 800 }}>
+      <div className="brand" style={{ marginBottom: '16px' }}>
+        <div style={{ background: '#ea580c', padding: '6px 12px', borderRadius: '12px', color: 'white', fontSize: '18px', fontWeight: 700 }}>
           V
         </div>
         <span style={{ color: '#111827' }}>VedaAI</span>
       </div>
       
-      <Link href="/create" style={{ textDecoration: 'none' }}>
-        <button className="sidebar-btn">
+      <Link href="/create" style={{ textDecoration: 'none', display: 'block', marginBottom: '8px' }}>
+        <button className="sidebar-btn" style={{ width: '100%' }}>
           <Sparkles size={16} fill="white" /> Create Assignment
         </button>
       </Link>
@@ -39,7 +46,9 @@ export default function Sidebar() {
           <div className="nav-link-inner">
             <FileText size={18} /> Assignments
           </div>
-          <span className="nav-badge">10</span>
+          {assignments.length > 0 && (
+            <span className="nav-badge">{assignments.length}</span>
+          )}
         </Link>
         <Link href="/toolkit" className={`nav-link ${pathname === '/toolkit' ? 'active' : ''}`}>
           <div className="nav-link-inner">
@@ -58,19 +67,19 @@ export default function Sidebar() {
         </Link>
       </div>
       
-      <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <Link href="/settings" className={`nav-link ${pathname === '/settings' ? 'active' : ''}`} style={{ padding: '8px 12px' }}>
+      <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <Link href="/settings" className={`nav-link ${pathname === '/settings' ? 'active' : ''}`} style={{ padding: '10px 12px' }}>
           <div className="nav-link-inner">
             <Settings size={18} /> Settings
           </div>
         </Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#f3f4f6', padding: '12px', borderRadius: '16px' }}>
-          <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#ffedd5', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix&backgroundColor=ffedd5" alt="Avatar" width="40" height="40" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#F9FAFB', padding: '12px', borderRadius: '12px', border: '1px solid #E5E7EB' }}>
+          <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#ffedd5', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix&backgroundColor=ffedd5" alt="Avatar" width="36" height="36" />
           </div>
           <div>
-            <div style={{ fontWeight: 700, fontSize: '13px', color: '#111827' }}>Delhi Public School</div>
-            <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Bokaro Steel City</div>
+            <div style={{ fontWeight: 600, fontSize: '13px', color: '#111827' }}>Delhi Public School</div>
+            <div style={{ fontSize: '12px', color: '#6B7280', marginTop: '2px' }}>Bokaro Steel City</div>
           </div>
         </div>
       </div>
