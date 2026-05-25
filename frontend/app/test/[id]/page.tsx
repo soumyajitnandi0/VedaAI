@@ -33,7 +33,7 @@ export default function StudentTestPage({ params }: { params: Promise<{ id: stri
   const [showFullscreenWarning, setShowFullscreenWarning] = useState(false);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/test/${id}`)
+    axios.get(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/test/${id}`)
       .then(res => {
         setData(res.data);
       })
@@ -71,7 +71,7 @@ export default function StudentTestPage({ params }: { params: Promise<{ id: stri
 
     setIsSubmitting(true);
     try {
-      await axios.post(`http://localhost:5000/api/test/${id}/submit`, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/test/${id}/submit`, {
         studentName: studentName || 'Unknown', 
         studentRoll: studentRoll || 'Unknown', 
         answers

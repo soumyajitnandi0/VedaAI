@@ -16,7 +16,7 @@ export default function LMSDashboard() {
 
   const fetchAssignments = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/lms/assignments');
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/lms/assignments`);
       setAssignments(res.data);
     } catch (err) {} finally { setLoading(false); }
   };
@@ -29,7 +29,7 @@ export default function LMSDashboard() {
     setSelectedAssignment(a);
     setLoadingSubs(true);
     try {
-      const res = await axios.get(`http://localhost:5000/api/lms/${a._id}/submissions`);
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/lms/${a._id}/submissions`);
       setSubmissions(res.data);
       setShowModal(false);
     } catch (err) {} finally { setLoadingSubs(false); }
@@ -45,7 +45,7 @@ export default function LMSDashboard() {
     if (!selectedAssignment) return;
     setIsGrading(true);
     try {
-      await axios.post(`http://localhost:5000/api/lms/${selectedAssignment._id}/grade`);
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/lms/${selectedAssignment._id}/grade`);
       alert('Grading Complete!');
       await loadSubmissions(selectedAssignment);
       await fetchAssignments();

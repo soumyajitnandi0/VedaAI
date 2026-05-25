@@ -9,7 +9,7 @@ export default function SocketProvider() {
   const currentAssignment = useAssignmentStore(state => state.currentAssignment);
 
   useEffect(() => {
-    const socket = io('http://localhost:5000');
+    const socket = io(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000');
     
     socket.on('connect', () => {
       console.log('Connected to WebSocket server');

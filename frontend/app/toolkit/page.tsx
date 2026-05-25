@@ -31,7 +31,7 @@ export default function ToolkitPage() {
     setIsLoading(true);
     setLpResult('');
     try {
-      const res = await axios.post('http://localhost:5000/api/toolkit/lesson-plan', {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/toolkit/lesson-plan`, {
         topic: lpTopic,
         duration: lpDuration,
         gradeLevel: lpGrade
@@ -49,7 +49,7 @@ export default function ToolkitPage() {
     setIsLoading(true);
     setFbResult('');
     try {
-      const res = await axios.post('http://localhost:5000/api/toolkit/feedback', {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/toolkit/feedback`, {
         studentName: fbName,
         strengths: fbStrengths,
         improvements: fbImprovements
@@ -84,7 +84,7 @@ export default function ToolkitPage() {
     setIsLoading(true);
     setBatchResults(null);
     try {
-      const res = await axios.post('http://localhost:5000/api/toolkit/grade-batch', {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/toolkit/grade-batch`, {
         masterKey,
         submissions: submissions.map(({ name, answers }) => ({ name, answers }))
       });

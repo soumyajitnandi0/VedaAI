@@ -5,11 +5,13 @@ import QuestionPaper from '../models/QuestionPaper';
 import { generateQuestionPaper } from './aiService';
 import { getIO } from '../utils/socket';
 
-const redisConnection = new Redis({
-  host: process.env.REDIS_HOST || '127.0.0.1',
-  port: parseInt(process.env.REDIS_PORT || '6379', 10),
-  maxRetriesPerRequest: null
-});
+const redisConnection = process.env.REDIS_URL 
+  ? new Redis(process.env.REDIS_URL, { maxRetriesPerRequest: null }) 
+  : new Redis({
+      host: process.env.REDIS_HOST || '127.0.0.1',
+      port: parseInt(process.env.REDIS_PORT || '6379', 10),
+      maxRetriesPerRequest: null
+    });
 
 export const assignmentQueue = new Queue('assignmentQueue', {
   connection: redisConnection,
