@@ -4,6 +4,8 @@ import axios from 'axios';
 import { Loader2, Link as LinkIcon, CheckCircle, RefreshCw, MonitorPlay, Sparkles, FileText, ChevronRight, X, ArrowLeft, LayoutGrid, Bell, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '');
+
 export default function LMSDashboard() {
   const [assignments, setAssignments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -16,7 +18,7 @@ export default function LMSDashboard() {
 
   const fetchAssignments = async () => {
     try {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/lms/assignments`);
+      const res = await axios.get(`${API_BASE}/api/lms/assignments`);
       setAssignments(res.data);
     } catch (err) {} finally { setLoading(false); }
   };
@@ -29,7 +31,7 @@ export default function LMSDashboard() {
     setSelectedAssignment(a);
     setLoadingSubs(true);
     try {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/lms/${a._id}/submissions`);
+      const res = await axios.get(`${API_BASE}/api/lms/${a._id}/submissions`);
       setSubmissions(res.data);
       setShowModal(false);
     } catch (err) {} finally { setLoadingSubs(false); }
@@ -45,7 +47,7 @@ export default function LMSDashboard() {
     if (!selectedAssignment) return;
     setIsGrading(true);
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/lms/${selectedAssignment._id}/grade`);
+      await axios.post(`${API_BASE}/api/lms/${selectedAssignment._id}/grade`);
       alert('Grading Complete!');
       await loadSubmissions(selectedAssignment);
       await fetchAssignments();

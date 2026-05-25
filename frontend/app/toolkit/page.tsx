@@ -4,6 +4,8 @@ import axios from 'axios';
 import { BookOpen, MessageSquare, Loader2, Play, CheckCircle, Download, Plus, Trash2, ArrowLeft, LayoutGrid, Bell, ChevronDown } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '');
+
 export default function ToolkitPage() {
   const [activeTool, setActiveTool] = useState<'LESSON_PLAN' | 'FEEDBACK' | 'BATCH_GRADER'>('LESSON_PLAN');
 
@@ -31,7 +33,7 @@ export default function ToolkitPage() {
     setIsLoading(true);
     setLpResult('');
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/toolkit/lesson-plan`, {
+      const res = await axios.post(`${API_BASE}/api/toolkit/lesson-plan`, {
         topic: lpTopic,
         duration: lpDuration,
         gradeLevel: lpGrade
@@ -49,7 +51,7 @@ export default function ToolkitPage() {
     setIsLoading(true);
     setFbResult('');
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/toolkit/feedback`, {
+      const res = await axios.post(`${API_BASE}/api/toolkit/feedback`, {
         studentName: fbName,
         strengths: fbStrengths,
         improvements: fbImprovements
@@ -84,7 +86,7 @@ export default function ToolkitPage() {
     setIsLoading(true);
     setBatchResults(null);
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/toolkit/grade-batch`, {
+      const res = await axios.post(`${API_BASE}/api/toolkit/grade-batch`, {
         masterKey,
         submissions: submissions.map(({ name, answers }) => ({ name, answers }))
       });

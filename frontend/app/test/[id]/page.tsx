@@ -16,6 +16,8 @@ const MathText = ({ content }: { content: string }) => (
   <span className="math-markdown"><ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{formatMath(content)}</ReactMarkdown></span>
 );
 
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000').replace(/\/$/, '');
+
 export default function StudentTestPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const [data, setData] = useState<{ assignment: any, paper: any } | null>(null);
@@ -33,7 +35,7 @@ export default function StudentTestPage({ params }: { params: Promise<{ id: stri
   const [showFullscreenWarning, setShowFullscreenWarning] = useState(false);
 
   useEffect(() => {
-    axios.get(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/test/${id}`)
+    axios.get(`${API_BASE}/api/test/${id}`)
       .then(res => {
         setData(res.data);
       })
@@ -71,7 +73,7 @@ export default function StudentTestPage({ params }: { params: Promise<{ id: stri
 
     setIsSubmitting(true);
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/test/${id}/submit`, {
+      await axios.post(`${API_BASE}/api/test/${id}/submit`, {
         studentName: studentName || 'Unknown', 
         studentRoll: studentRoll || 'Unknown', 
         answers
