@@ -39,7 +39,8 @@ export default function LMSDashboard() {
 
   const handleCopyLink = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
-    navigator.clipboard.writeText(`http://localhost:3000/test/${id}`);
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+    navigator.clipboard.writeText(`${baseUrl}/test/${id}`);
     alert('Link copied to clipboard!');
   };
 
